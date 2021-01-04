@@ -1,10 +1,12 @@
 using UnityEngine;
+using System;
 
 namespace YoukaiFox.Inspector
 {
     /// <summary>
     /// Base class for comparison attributes.
     /// </summary>
+    // [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public abstract class ComparisonAttribute : PropertyAttribute
     {
         public string ComparedPropertyName { get; private set; }
@@ -18,18 +20,31 @@ namespace YoukaiFox.Inspector
             OR
         }
 
+        /// <summary>
+        /// Comparison is true if <paramref name="comparedPropertyName"/>
+        /// is true.
+        /// </summary>
         public ComparisonAttribute(string comparedPropertyName)
         {
             ComparedPropertyName = comparedPropertyName;
             TargetConditionValue = null;
         }
 
+        /// <summary>
+        /// Comparison is true if <paramref name="comparedPropertyName"/>
+        /// has a value of <paramref name="targetConditionValue"/>.
+        /// </summary>
         public ComparisonAttribute(string comparedPropertyName, object targetConditionValue)
         {
             ComparedPropertyName = comparedPropertyName;
             TargetConditionValue = targetConditionValue;
         }
 
+        /// <summary>
+        /// Consider the boolean values of <paramref name="comparedPropertyName"/>
+        /// and <paramref name="additionalComparedName"/> under the operator
+        /// <paramref name="targetCondition"/>.
+        /// </summary>
         public ComparisonAttribute(string comparedPropertyName, 
                                    string additionalComparedName, 
                                    ConditionOperator targetCondition)
@@ -39,6 +54,12 @@ namespace YoukaiFox.Inspector
             TargetCondition = targetCondition;
         }
 
+        /// <summary>
+        /// Consider the boolean values of <paramref name="comparedPropertyName"/>
+        /// and <paramref name="additionalComparedName"/> under the operator
+        /// <paramref name="targetCondition"/> and is true if it's equals to
+        /// <paramref name="targetConditionValue"/>.
+        /// </summary>
         public ComparisonAttribute(string comparedPropertyName, 
                                    string additionalComparedName, 
                                    ConditionOperator targetCondition, 
