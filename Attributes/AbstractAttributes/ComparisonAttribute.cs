@@ -9,8 +9,7 @@ namespace YoukaiFox.Inspector
     // [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public abstract class ComparisonAttribute : PropertyAttribute
     {
-        public string ComparedPropertyName { get; private set; }
-        public string AdditionalComparedName { get; private set; }
+        public string[] PropertiesNames { get; private set; }
         public ConditionOperator TargetCondition { get; private set; }
         public object TargetConditionValue { get; private set; }
 
@@ -26,7 +25,7 @@ namespace YoukaiFox.Inspector
         /// </summary>
         public ComparisonAttribute(string comparedPropertyName)
         {
-            ComparedPropertyName = comparedPropertyName;
+            PropertiesNames = new string[1] { comparedPropertyName };
             TargetConditionValue = null;
         }
 
@@ -36,22 +35,18 @@ namespace YoukaiFox.Inspector
         /// </summary>
         public ComparisonAttribute(string comparedPropertyName, object targetConditionValue)
         {
-            ComparedPropertyName = comparedPropertyName;
+            PropertiesNames = new string[1] { comparedPropertyName };
             TargetConditionValue = targetConditionValue;
         }
 
         /// <summary>
-        /// Consider the boolean values of <paramref name="comparedPropertyName"/>
-        /// and <paramref name="additionalComparedName"/> under the operator
-        /// <paramref name="targetCondition"/>.
+        /// Consider the boolean values of <paramref name="comparedPropertiesNames"/>
+        /// under the operator <paramref name="targetCondition"/>.
         /// </summary>
-        public ComparisonAttribute(string comparedPropertyName, 
-                                   string additionalComparedName, 
-                                   ConditionOperator targetCondition)
+        public ComparisonAttribute(ConditionOperator targetCondition, params string[] comparedPropertiesNames)
         {
-            ComparedPropertyName = comparedPropertyName;
-            AdditionalComparedName = additionalComparedName;
             TargetCondition = targetCondition;
+            PropertiesNames = comparedPropertiesNames;
         }
 
         /// <summary>
@@ -60,15 +55,11 @@ namespace YoukaiFox.Inspector
         /// <paramref name="targetCondition"/> and is true if it's equals to
         /// <paramref name="targetConditionValue"/>.
         /// </summary>
-        public ComparisonAttribute(string comparedPropertyName, 
-                                   string additionalComparedName, 
-                                   ConditionOperator targetCondition, 
-                                   object targetConditionValue)
+        public ComparisonAttribute(ConditionOperator targetCondition, object targetConditionValue, params string[] comparedPropertiesNames)
         {
-            ComparedPropertyName = comparedPropertyName;
-            AdditionalComparedName = additionalComparedName;
             TargetCondition = targetCondition;
             TargetConditionValue = targetConditionValue;
+            PropertiesNames = comparedPropertiesNames;
         }
     }
 }
