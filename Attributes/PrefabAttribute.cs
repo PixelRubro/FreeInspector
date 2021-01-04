@@ -5,7 +5,7 @@ namespace YoukaiFox.Inspector
     /// <summary>
     /// Make the field prefab only.
     /// </summary>
-    public sealed class PrefabAttribute : PropertyAttribute
+    public sealed class PrefabAttribute : ValidationAttribute
     {
     }
 }
