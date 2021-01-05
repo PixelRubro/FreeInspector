@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace YoukaiFox.Inspector
 {
-    public abstract class PropertyValidationDrawer: PropertyDrawer 
+    public abstract class PropertyValidationDrawer: YoukaiAttributeDrawer 
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) 
         {
@@ -20,7 +20,7 @@ namespace YoukaiFox.Inspector
                 property.objectReferenceValue = null;
             }
         }
-
+        
         protected abstract bool IsObjectValid(Object value, SerializedProperty property);
     }
 }
