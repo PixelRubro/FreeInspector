@@ -3,44 +3,22 @@ using UnityEngine;
 namespace YoukaiFox.Inspector
 {
     /// <summary>
-    /// Shows property if provided condition is met. Conditional property has to be serialized.
+    /// Shows property if provided condition is met.
     /// </summary>
-    public sealed class ShowIfAttribute : ComparisonAttribute
+    public sealed class ShowIfAttribute : ConditionalAttribute
     {
         /// <summary>
-        /// Shows field if the value of 
-        /// <paramref name="comparedPropertyName"/> is true.
+        /// Shows field if <paramref name="comparedPropertyName"/> is true.
         /// </summary>
-        public ShowIfAttribute(string comparedPropertyName)
-            : base(comparedPropertyName)
+        public ShowIfAttribute(string comparedPropertyName) : base(comparedPropertyName)
         {
         }
 
         /// <summary>
-        /// Shows field if the value of <paramref name="comparedPropertyName"/>
-        /// is equals to the value of <paramref name="targetConditionValue"/>.
+        /// Shows field if <paramref name="comparedPropertyName"/>
+        /// has a value of <paramref name="targetConditionValue"/>.
         /// </summary>
-        public ShowIfAttribute(string comparedPropertyName, object targetConditionValue)
-            : base(comparedPropertyName, targetConditionValue)
-        {
-        }
-
-        /// <summary>
-        /// Shows field if the values in <paramref name="comparedPropertiesNames"/>
-        /// under the operator <paramref name="targetCondition"/> returns true.
-        /// </summary>
-        public ShowIfAttribute(ConditionOperator targetCondition, params string[] comparedPropertiesNames)
-            : base(targetCondition, comparedPropertiesNames)
-        {
-        }
-
-        /// <summary>
-        /// Shows field if the values in <paramref name="comparedPropertiesNames"/>
-        /// under the operator <paramref name="targetCondition"/> returns a value
-        /// equals to the value in <paramref name="targetConditionValue"/>.
-        /// </summary>
-        public ShowIfAttribute(ConditionOperator targetCondition, object targetConditionValue, params string[] comparedPropertiesNames)
-            : base(targetCondition, targetConditionValue, comparedPropertiesNames)
+        public ShowIfAttribute(string comparedPropertyName, object targetConditionValue) : base(comparedPropertyName, targetConditionValue)
         {
         }
     }
