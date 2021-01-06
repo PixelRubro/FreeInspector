@@ -6,36 +6,11 @@ namespace YoukaiFox.Inspector
 {
     public static class SerializedPropertyExtensions
     {
+        private delegate FieldInfo GetFieldInfoAndStaticTypeFromProperty(SerializedProperty aProperty, out Type aType);
+
+        private static GetFieldInfoAndStaticTypeFromProperty m_GetFieldInfoAndStaticTypeFromProperty;
+
         #region Extensions
-
-        // Author: github.com/lordofduct
-        /// <summary>
-        /// Gets the object the property represents.
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        public static object GetObject(this SerializedProperty self)
-        {
-            if (self == null) return null;
-
-            var path = self.propertyPath.Replace(".Array.data[", "[");
-            object obj = self.serializedObject.targetObject;
-            var elements = path.Split('.');
-            foreach (var element in elements)
-            {
-                if (element.Contains("["))
-                {
-                    var elementName = element.Substring(0, element.IndexOf("["));
-                    var index = System.Convert.ToInt32(element.Substring(element.IndexOf("[")).Replace("[", "").Replace("]", ""));
-                    obj = GetValue_Imp(obj, elementName, index);
-                }
-                else
-                {
-                    obj = GetValue_Imp(obj, element);
-                }
-            }
-            return obj;
-        }
 
         // Author: github.com/arimger
         public static SerializedProperty GetSibiling(this SerializedProperty self, string propertyPath)
@@ -79,48 +54,115 @@ namespace YoukaiFox.Inspector
             return parent;
         }
 
+        // Author: github.com/lordofduct
+        /// <summary>
+        /// Gets the object that the property is a member of
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static object GetTargetObjectWithProperty(this SerializedProperty self)
+        {
+            string path = self.propertyPath.Replace(".Array.data[", "[");
+            object obj = self.serializedObject.targetObject;
+            string[] elements = path.Split('.');
+
+            for (int i = 0; i < elements.Length - 1; i++)
+            {
+                string element = elements[i];
+                if (element.Contains("["))
+                {
+                    string elementName = element.Substring(0, element.IndexOf("["));
+                    int index = Convert.ToInt32(element.Substring(element.IndexOf("[")).Replace("[", "").Replace("]", ""));
+                    obj = HelperMethods.GetValue_Imp(obj, elementName, index);
+                }
+                else
+                {
+                    obj = HelperMethods.GetValue_Imp(obj, element);
+                }
+            }
+
+            return obj;
+        }
+
+        // Author: github.com/lordofduct
+        /// <summary>
+        /// Gets the object the property represents.
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static object GetTargetObjectOfProperty(this SerializedProperty self)
+        {
+            if (self == null)
+            {
+                return null;
+            }
+
+            string path = self.propertyPath.Replace(".Array.data[", "[");
+            object obj = self.serializedObject.targetObject;
+            string[] elements = path.Split('.');
+
+            foreach (var element in elements)
+            {
+                if (element.Contains("["))
+                {
+                    string elementName = element.Substring(0, element.IndexOf("["));
+                    int index = Convert.ToInt32(element.Substring(element.IndexOf("[")).Replace("[", "").Replace("]", ""));
+                    obj = HelperMethods.GetValue_Imp(obj, elementName, index);
+                }
+                else
+                {
+                    obj = HelperMethods.GetValue_Imp(obj, element);
+                }
+            }
+
+            return obj;
+        }
+
+        public static Type GetPropertyType(this SerializedProperty self)
+        {
+            Type parentType = self.GetTargetObjectWithProperty().GetType();
+            FieldInfo fieldInfo = parentType.GetField(self.name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+            return fieldInfo.FieldType;
+        }
+
+        // Origin: https://forum.unity.com/threads/get-a-general-object-value-from-serializedproperty.327098/
+        public static FieldInfo GetFieldInfoAndStaticType(this SerializedProperty prop, out Type type)
+        {
+            if (m_GetFieldInfoAndStaticTypeFromProperty == null)
+            {
+                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    foreach (var t in assembly.GetTypes())
+                    {
+                        if (t.Name == "ScriptAttributeUtility")
+                        {
+                            MethodInfo mi = t.GetMethod("GetFieldInfoAndStaticTypeFromProperty", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+                            m_GetFieldInfoAndStaticTypeFromProperty = (GetFieldInfoAndStaticTypeFromProperty)Delegate.CreateDelegate(typeof(GetFieldInfoAndStaticTypeFromProperty), mi);
+                            break;
+                        }
+                    }
+                    if (m_GetFieldInfoAndStaticTypeFromProperty != null) break;
+                }
+                if (m_GetFieldInfoAndStaticTypeFromProperty == null)
+                {
+                    UnityEngine.Debug.LogError("GetFieldInfoAndStaticType::Reflection failed!");
+                    type = null;
+                    return null;
+                }
+            }
+            return m_GetFieldInfoAndStaticTypeFromProperty(prop, out type);
+        }
+
+        public static T GetCustomAttributeFromProperty<T>(this SerializedProperty prop) where T : System.Attribute
+        {
+            var info = prop.GetFieldInfoAndStaticType(out _);
+            return info.GetCustomAttribute<T>();
+        }
+
         #endregion
 
         #region Helper methods
-
-        // Author: github.com/lordofduct
-        private static object GetValue_Imp(object obj, string name)
-        {
-            if (obj == null)
-                return null;
-            var type = obj.GetType();
-
-            while (type != null)
-            {
-                var f = type.GetField(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-                if (f != null)
-                    return f.GetValue(obj);
-
-                var p = type.GetProperty(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
-                if (p != null)
-                    return p.GetValue(obj, null);
-
-                type = type.BaseType;
-            }
-            return null;
-        }
-
-        // Author: github.com/lordofduct
-        private static object GetValue_Imp(object obj, string name, int index)
-        {
-            var enumerable = GetValue_Imp(obj, name) as System.Collections.IEnumerable;
-            if (enumerable == null) return null;
-            var enm = enumerable.GetEnumerator();
-            //while (index-- >= 0)
-            //    enm.MoveNext();
-            //return enm.Current;
-
-            for (int i = 0; i <= index; i++)
-            {
-                if (!enm.MoveNext()) return null;
-            }
-            return enm.Current;
-        }
 
         #endregion
     }
