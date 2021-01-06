@@ -15,25 +15,42 @@ namespace YoukaiFox.Inspector
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) 
         {
-            if (!IsComparisonValid(property))
-                return;
-
             PropertyDrawing drawing = GetPropertyDrawing();
 
-            switch (drawing)
+            if (IsComparisonValid(property))
             {
-                case PropertyDrawing.Show:
-                    EditorGUI.PropertyField(position, property);
-                    break;
-                case PropertyDrawing.Hide:
-                    break;
-                case PropertyDrawing.Disable:
-                    GUI.enabled = false;
-                    EditorGUI.PropertyField(position, property);
-                    GUI.enabled = true;
-                    break;
-                default:
-                    throw new System.ArgumentOutOfRangeException();
+                switch (drawing)
+                {
+                    case PropertyDrawing.Show:
+                        EditorGUI.PropertyField(position, property);
+                        break;
+                    case PropertyDrawing.Hide:
+                        break;
+                    case PropertyDrawing.Disable:
+                        GUI.enabled = false;
+                        EditorGUI.PropertyField(position, property);
+                        GUI.enabled = true;
+                        break;
+                    default:
+                        throw new System.ArgumentOutOfRangeException();
+                }
+            }
+            else
+            {
+                switch (drawing)
+                {
+                    case PropertyDrawing.Show:
+                        break;
+                    case PropertyDrawing.Hide:
+                        EditorGUI.PropertyField(position, property);
+                        break;
+                    case PropertyDrawing.Disable:
+                        GUI.enabled = true;
+                        EditorGUI.PropertyField(position, property);
+                        break;
+                    default:
+                        throw new System.ArgumentOutOfRangeException();
+                }
             }
         }
 
