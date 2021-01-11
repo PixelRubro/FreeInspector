@@ -4,7 +4,7 @@ using UnityEngine;
 namespace YoukaiFox.Inspector
 {
     [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
-    public class ReadOnlyFieldDrawer : PropertyDrawer
+    public class ReadOnlyAttributeDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
