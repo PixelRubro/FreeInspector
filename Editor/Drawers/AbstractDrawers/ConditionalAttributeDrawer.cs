@@ -10,7 +10,7 @@ namespace YoukaiFox.Inspector
     {
         public enum PropertyDrawing
         {
-            Show, Hide, Disable
+            Show, Hide, Disable, Enable
         }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) 
@@ -25,6 +25,10 @@ namespace YoukaiFox.Inspector
                         EditorGUI.PropertyField(position, property);
                         break;
                     case PropertyDrawing.Hide:
+                        break;
+                    case PropertyDrawing.Enable:
+                        GUI.enabled = true;
+                        EditorGUI.PropertyField(position, property);
                         break;
                     case PropertyDrawing.Disable:
                         GUI.enabled = false;
@@ -43,6 +47,11 @@ namespace YoukaiFox.Inspector
                         break;
                     case PropertyDrawing.Hide:
                         EditorGUI.PropertyField(position, property);
+                        break;
+                    case PropertyDrawing.Enable:
+                        GUI.enabled = false;
+                        EditorGUI.PropertyField(position, property);
+                        GUI.enabled = true;
                         break;
                     case PropertyDrawing.Disable:
                         GUI.enabled = true;
