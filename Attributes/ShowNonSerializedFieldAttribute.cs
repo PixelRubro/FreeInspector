@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace YoukaiFox.Inspector
@@ -6,6 +7,7 @@ namespace YoukaiFox.Inspector
     /// Show non-serialized fields on inspector.
     /// </summary>
     
+    [AttributeUsage(AttributeTargets.Field)]
     public sealed class ShowNonSerializedFieldAttribute : PropertyAttribute
     {
     }
