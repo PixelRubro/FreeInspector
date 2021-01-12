@@ -4,7 +4,7 @@ using UnityEngine;
 namespace YoukaiFox.Inspector
 {
     /// <summary>
-    /// Automatically set the component type.
+    /// Automatically set the component type. Currently only works on serialized fields.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = true)]
     public sealed class AutoSetAttribute : ValidationAttribute
