@@ -5,7 +5,8 @@ namespace YoukaiFox.Inspector
     /// <summary>
     /// Show non-serialized fields on inspector.
     /// </summary>
-    public class ShowNonSerializedFieldAttribute : PropertyAttribute
+    
+    public sealed class ShowNonSerializedFieldAttribute : PropertyAttribute
     {
     }
 }
