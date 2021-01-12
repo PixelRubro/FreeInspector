@@ -3,8 +3,10 @@ using UnityEditor;
 
 namespace YoukaiFox.Inspector
 {
-    public abstract class PropertyValidationDrawer: YoukaiAttributeDrawer 
+    public abstract class PropertyValidationDrawer: YoukaiAttributeDrawer, IWarningMessage
     {
+        public abstract string GetWarningMessage();
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) 
         {
             EditorGUI.BeginChangeCheck();
