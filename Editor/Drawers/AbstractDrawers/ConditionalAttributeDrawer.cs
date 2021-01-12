@@ -86,10 +86,10 @@ namespace YoukaiFox.Inspector
             System.Object objectInstance = property.GetTargetObjectWithProperty();
             var comparisonAttribute = attribute as ConditionalAttribute;
             FieldInfo field = objectInstance.GetField(comparisonAttribute.PropertyName);
-            PropertyInfo hiddenProperty = objectInstance.GetProperty(comparisonAttribute.PropertyName);
+            PropertyInfo nonSerializedMember = objectInstance.GetProperty(comparisonAttribute.PropertyName);
 
             var objectValue = field != null ? field.GetValue(objectInstance) : 
-                                        hiddenProperty.GetValue(objectInstance);
+                                        nonSerializedMember.GetValue(objectInstance);
 
             if (!objectValue.ToBool(out bool memberValue))
                 Debug.LogError($"Value {objectValue} is not a boolean");
