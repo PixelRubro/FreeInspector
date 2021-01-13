@@ -4,7 +4,7 @@ using UnityEngine;
 namespace YoukaiFox.Inspector
 {
     [CustomPropertyDrawer(typeof(InfoBoxAttribute))]
-    public class InfoBoxAttributeDrawer : YoukaiAttributeDrawer
+    public class InfoBoxAttributeDrawer : YoukaiPropertyDrawer
     {
         private const int MessageTextPadding = 40;
 

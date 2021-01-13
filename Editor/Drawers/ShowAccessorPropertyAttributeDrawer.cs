@@ -5,7 +5,7 @@ using UnityEngine;
 namespace YoukaiFox.Inspector
 {
     [CustomPropertyDrawer(typeof(ShowAccessorPropertyAttribute))]
-    public class ShowAccessorPropertyAttributeDrawer : YoukaiAttributeDrawer
+    public class ShowAccessorPropertyAttributeDrawer : YoukaiPropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

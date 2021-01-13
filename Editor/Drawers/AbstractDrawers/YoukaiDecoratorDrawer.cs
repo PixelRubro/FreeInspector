@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace YoukaiFox.Inspector
 {
-    public abstract class YoukaiPropertyDrawer: PropertyDrawer 
+    public abstract class YoukaiDecoratorDrawer: DecoratorDrawer 
     {
     }
 }

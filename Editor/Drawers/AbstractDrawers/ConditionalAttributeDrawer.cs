@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace YoukaiFox.Inspector
 {
-    public abstract class ConditionalAttributeDrawer<T> : YoukaiAttributeDrawer where T : ConditionalAttribute
+    public abstract class ConditionalAttributeDrawer<T> : YoukaiPropertyDrawer where T : ConditionalAttribute
     {
         public enum PropertyDrawing
         {
