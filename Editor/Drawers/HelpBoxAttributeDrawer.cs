@@ -19,11 +19,11 @@ namespace YoukaiFox.Inspector
             var helpBoxAttribute = attribute as HelpBoxAttribute;
             var content = new GUIContent(helpBoxAttribute.HelpText);
             var styleMargin = helpBoxStyle.CalcHeight(content, EditorGUIUtility.currentViewWidth) + InspectorMargin;
-
             return Mathf.Max(MessageTextPadding, styleMargin);
         }
 
-        public override void OnGUI(Rect position) {
+        public override void OnGUI(Rect position) 
+        {
             var helpBoxAttribute = attribute as HelpBoxAttribute;
             EditorGUI.HelpBox(position, helpBoxAttribute.HelpText, helpBoxAttribute.MessageType);
         }
