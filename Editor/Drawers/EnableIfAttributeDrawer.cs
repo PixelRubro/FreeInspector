@@ -4,7 +4,7 @@ using UnityEngine;
 namespace YoukaiFox.Inspector
 {
     [CustomPropertyDrawer(typeof(EnableIfAttribute))]
-    public class EnableIfAttributeDrawer : ConditionalAttributeDrawer<EnableIfAttribute>
+    public class EnableIfAttributeDrawer : ConditionalAttributeDrawer
     {
         protected override PropertyDrawing GetPropertyDrawing()
         {
