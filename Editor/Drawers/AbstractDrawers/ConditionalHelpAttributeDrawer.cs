@@ -8,7 +8,7 @@ namespace YoukaiFox.Inspector
 {
     public abstract class ConditionalHelpAttributeDrawer : YoukaiPropertyDrawer
     {
-        public const int MessageTextPadding = 42;
+        public const int MessageTextPadding = 44;
         public const int InspectorMargin = 4;
         public const int StandardPropertySize = 16;
 
