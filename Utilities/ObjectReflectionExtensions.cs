@@ -8,11 +8,10 @@ namespace YoukaiFox.Inspector
 {
     public static class ObjectReflectionExtensions 
     {
-        private static BindingFlags _flags = BindingFlags.Instance | 
-                                             BindingFlags.Static | 
-                                             BindingFlags.NonPublic | 
-                                             BindingFlags.Public | 
-                                             BindingFlags.DeclaredOnly;
+        private static BindingFlags StandardFlags = BindingFlags.Instance | 
+                                                    BindingFlags.Static | 
+                                                    BindingFlags.NonPublic | 
+                                                    BindingFlags.Public;
 
         public static IEnumerable<FieldInfo> GetAllFields(this object self, Func<FieldInfo, bool> predicate)
         {
@@ -35,7 +34,7 @@ namespace YoukaiFox.Inspector
             for (int i = types.Count - 1; i >= 0; i--)
             {
                 IEnumerable<FieldInfo> fieldInfos = types[i]
-                    .GetFields(_flags)
+                    .GetFields(StandardFlags)
                     .Where(predicate);
 
                 foreach (var fieldInfo in fieldInfos)
@@ -66,7 +65,7 @@ namespace YoukaiFox.Inspector
             for (int i = types.Count - 1; i >= 0; i--)
             {
                 IEnumerable<PropertyInfo> propertyInfos = types[i]
-                    .GetProperties(_flags)
+                    .GetProperties(StandardFlags)
                     .Where(predicate);
 
                 foreach (var propertyInfo in propertyInfos)
@@ -74,6 +73,20 @@ namespace YoukaiFox.Inspector
                     yield return propertyInfo;
                 }
             }
+        }
+
+        public static IEnumerable<MethodInfo> GetAllMethods(this object self)
+        {
+            if (self == null)
+            {
+                Debug.LogError("The target object is null. Check for missing scripts.");
+                return null;
+            }
+
+            IEnumerable<MethodInfo> methodInfos = self.GetType()
+                .GetMethods(StandardFlags);
+
+            return methodInfos;
         }
 
         public static IEnumerable<MethodInfo> GetAllMethods(this object self, Func<MethodInfo, bool> predicate)
@@ -85,7 +98,7 @@ namespace YoukaiFox.Inspector
             }
 
             IEnumerable<MethodInfo> methodInfos = self.GetType()
-                .GetMethods(_flags)
+                .GetMethods(StandardFlags)
                 .Where(predicate);
 
             return methodInfos;

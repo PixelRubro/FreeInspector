@@ -94,7 +94,7 @@ namespace YoukaiFox.Inspector
             return memberValue;
         }
 
-        protected float GetHelpBoxHeight()
+        public override float GetHelpBoxHeight()
         {
             var helpBoxStyle = (GUI.skin != null) ? GUI.skin.GetStyle("helpbox") : null;
 

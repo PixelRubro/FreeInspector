@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace YoukaiFox.Inspector
 {
-    public abstract class ValidationAttribute : PropertyAttribute
+    public abstract class ValidationAttribute : YoukaiAttribute
     {
     }
 }

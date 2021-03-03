@@ -7,7 +7,7 @@ namespace YoukaiFox.Inspector
     /// Base class for comparison attributes.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public abstract class ConditionalAttribute : PropertyAttribute
+    public abstract class ConditionalAttribute : YoukaiAttribute
     {
         // public string[] PropertiesNames { get; private set; }
         public string PropertyName { get; private set; }

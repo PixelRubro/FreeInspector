@@ -8,7 +8,7 @@ namespace YoukaiFox.Inspector
     /// Base class for comparison attributes that show a help box.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
-    public abstract class ConditionalHelpAttribute : PropertyAttribute
+    public abstract class ConditionalHelpAttribute : YoukaiAttribute
     {
         public string HelpText { get; set; }
         public MessageType MessageType { get; set; }
