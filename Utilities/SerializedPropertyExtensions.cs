@@ -2,6 +2,8 @@ using UnityEditor;
 using System;
 using System.Reflection;
 
+#if UNITY_EDITOR
+
 namespace YoukaiFox.Inspector
 {
     public static class SerializedPropertyExtensions
@@ -167,3 +169,4 @@ namespace YoukaiFox.Inspector
         #endregion
     }
 }
+#endif

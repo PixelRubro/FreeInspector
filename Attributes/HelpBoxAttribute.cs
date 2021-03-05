@@ -9,9 +9,9 @@ namespace YoukaiFox.Inspector
     public sealed class HelpBoxAttribute : PropertyAttribute
     {
         public string HelpText { get; set; }
-        public MessageType MessageType { get; set; }
+        public EMessageType MessageType { get; set; }
 
-        public HelpBoxAttribute(string helpText, MessageType messageType = MessageType.Info)
+        public HelpBoxAttribute(string helpText, EMessageType messageType = EMessageType.Info)
         {
             HelpText = helpText;
             MessageType = messageType;

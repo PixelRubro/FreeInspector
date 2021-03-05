@@ -1,6 +1,3 @@
-using UnityEditor;
-using UnityEngine;
-
 namespace YoukaiFox.Inspector
 {
     /// <summary>
@@ -11,7 +8,7 @@ namespace YoukaiFox.Inspector
         /// <summary>
         /// Hides help box if condition is met.
         /// </summary>
-        public HideHelpBoxIfAttribute(string targetConditionName, string helpText, MessageType messageType = MessageType.Info)
+        public HideHelpBoxIfAttribute(string targetConditionName, string helpText, EMessageType messageType = EMessageType.Info)
         : base(targetConditionName, helpText, messageType)
         {
         }

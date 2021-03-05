@@ -25,7 +25,7 @@ namespace YoukaiFox.Inspector
         public override void OnGUI(Rect position) 
         {
             var helpBoxAttribute = attribute as HelpBoxAttribute;
-            EditorGUI.HelpBox(position, helpBoxAttribute.HelpText, helpBoxAttribute.MessageType);
+            EditorGUI.HelpBox(position, helpBoxAttribute.HelpText, ConvertMessageType(helpBoxAttribute.MessageType));
         }
     }
 }

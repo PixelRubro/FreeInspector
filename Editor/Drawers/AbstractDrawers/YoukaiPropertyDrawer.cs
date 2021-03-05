@@ -9,6 +9,23 @@ namespace YoukaiFox.Inspector
 		{
 			return EditorGUIUtility.singleLineHeight * 2.0f;
 		}
+
+        protected MessageType ConvertMessageType(EMessageType eMessageType)
+        {
+            switch (eMessageType)
+            {
+                case EMessageType.None:
+                    return MessageType.None;
+                case EMessageType.Info:
+                    return MessageType.Info;
+                case EMessageType.Warning:
+                    return MessageType.Warning;
+                case EMessageType.Error:
+                    return MessageType.Error;
+                default:
+                    throw new System.ArgumentOutOfRangeException();
+            }
+        }
         
         // public void DrawDefaultPropertyAndHelpBox(Rect rect, SerializedProperty property, string message, MessageType messageType)
 		// {
