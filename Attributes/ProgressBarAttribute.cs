@@ -7,7 +7,7 @@ namespace YoukaiFox.Inspector
     /// <summary>
     /// Draw a progress bar for a serialized float field in the inspector.
     /// </summary>
-    public sealed class ProgressBarAttribute : PropertyAttribute
+    public sealed class ProgressBarAttribute : YoukaiAttribute
     {
         /// <summary>
         /// Display name.
