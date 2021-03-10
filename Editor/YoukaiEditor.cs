@@ -2,6 +2,7 @@
 using UnityEditor;
 using System.Linq;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -11,25 +12,28 @@ namespace YoukaiFox.Inspector
     [CustomEditor(typeof(UnityEngine.Object), true)]
     public class YoukaiEditor : Editor 
     {
+        #region Fields
+
+        #region Static fields
+        #endregion
+
+        #region Attributes references
+
+        private IEnumerable<FieldInfo> _prefabFields;
         private IEnumerable<FieldInfo> _nonSerializedFields;
+        private IEnumerable<FieldInfo> _serializedFields;
         private IEnumerable<PropertyInfo> _properties;
         private IEnumerable<MethodInfo> _methods;
         private IEnumerable<MethodInfo> _methodsNoArguments;
         private IEnumerable<MethodInfo> _methodsWithArguments;
+
+        #endregion
+
+        #endregion
         
         private void OnEnable() 
         {
-            // _nonSerializedFields = target.
-            //     GetAllFields(f => f.GetCustomAttributes(typeof(ShowNonSerializedFieldAttribute), true).Length > 0);
-
-            // _properties = target.
-            //     GetAllProperties(p => p.GetCustomAttributes(typeof(ShowPropertyAttribute), true).Length > 0);
-
-            _methods = target.
-                GetAllMethods(m => m.GetCustomAttributes(typeof(ButtonAttribute), true).Length > 0);
-
-            _methodsNoArguments = _methods.Where(m => m.GetParameters().Length == 0);
-            _methodsWithArguments = _methods.Where(m => m.GetParameters().Length > 0);
+            FindAttributes();
         }
 
         public override void OnInspectorGUI() 
@@ -70,6 +74,23 @@ namespace YoukaiFox.Inspector
                 method.Invoke(serializedObject.targetObject, defaultParameters);
                 GUI.enabled = previousGuiStatus;
             }
+        }
+
+        private void FindAttributes()
+        {
+            _serializedFields = target.
+                GetAllFields(f => f.GetCustomAttributes(typeof(SerializeField), true).Length > 0);
+
+            // _properties = target.
+            //     GetAllProperties(p => p.GetCustomAttributes(typeof(ShowPropertyAttribute), true).Length > 0);
+
+            _methods = target.
+                GetAllMethods(m => m.GetCustomAttributes(typeof(ButtonAttribute), true).Length > 0);
+
+            _methodsNoArguments = _methods.Where(m => m.GetParameters().Length == 0);
+            _methodsWithArguments = _methods.Where(m => m.GetParameters().Length > 0);
+
+            _prefabFields = _serializedFields.Where(f => f.GetCustomAttributes(typeof(PrefabAttribute), true).Length > 0);
         }
     }
 }

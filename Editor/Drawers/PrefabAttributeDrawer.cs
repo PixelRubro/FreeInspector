@@ -1,11 +1,16 @@
 using UnityEngine;
 using UnityEditor;
+using System.IO;
+using System.Linq;
 
 namespace YoukaiFox.Inspector
 {
     [CustomPropertyDrawer(typeof(PrefabAttribute))]
     public class PrefabAttributeDrawer : PropertyValidationDrawer 
     {
+        private Texture2D _prefabTexture;
+        private string _graphicsPath;
+
         public override string GetWarningMessage()
         {
             return "Not a prefab instance!";
@@ -19,6 +24,14 @@ namespace YoukaiFox.Inspector
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) 
         {
             EditorGUI.BeginChangeCheck();
+            
+            FindPrefabIcon();
+
+            if (_prefabTexture)
+            {
+                label.image = _prefabTexture;
+            }
+
             EditorGUI.PropertyField(position, property, label);
 
             if (EditorGUI.EndChangeCheck())
@@ -31,6 +44,42 @@ namespace YoukaiFox.Inspector
                 }
 
                 property.objectReferenceValue = null;
+            }
+        }
+
+        private void FindPrefabIcon()
+        {
+            if (_prefabTexture)
+                return;
+
+            FindGraphicResources();
+
+            if (string.IsNullOrEmpty(_graphicsPath))
+                return;
+
+            string path = $"{_graphicsPath}/PrefabIcon.png";
+
+            _prefabTexture = new Texture2D(1, 1);
+            _prefabTexture.LoadImage(File.ReadAllBytes(path));
+            _prefabTexture.name = "PrefabIcon";
+            _prefabTexture.Apply();
+        }
+
+        private void FindGraphicResources()
+        {
+            if (!string.IsNullOrEmpty(_graphicsPath))
+                return;
+
+            try
+            {
+                _graphicsPath = Directory
+                    .GetDirectories(Application.dataPath, "*GraphicResources", SearchOption.AllDirectories)
+                    .FirstOrDefault();
+            }
+            catch (System.Exception)
+            {
+                Debug.Log($"Error when browsing directories under {Application.dataPath}");
+                throw;
             }
         }
     }
