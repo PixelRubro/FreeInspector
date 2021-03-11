@@ -1,5 +1,6 @@
 using UnityEditor;
 using System;
+using System.Linq;
 using System.Reflection;
 
 #if UNITY_EDITOR
@@ -129,7 +130,7 @@ namespace YoukaiFox.Inspector
         }
 
         // Origin: https://forum.unity.com/threads/get-a-general-object-value-from-serializedproperty.327098/
-        public static FieldInfo GetFieldInfoAndStaticType(this SerializedProperty prop, out Type type)
+        public static FieldInfo GetFieldInfoAndStaticType(this SerializedProperty self, out Type type)
         {
             if (m_GetFieldInfoAndStaticTypeFromProperty == null)
             {
@@ -153,14 +154,81 @@ namespace YoukaiFox.Inspector
                     return null;
                 }
             }
-            return m_GetFieldInfoAndStaticTypeFromProperty(prop, out type);
+            return m_GetFieldInfoAndStaticTypeFromProperty(self, out type);
         }
 
-        public static T GetCustomAttributeFromProperty<T>(this SerializedProperty prop) where T : System.Attribute
+        public static T GetCustomAttributeFromProperty<T>(this SerializedProperty self) where T : System.Attribute
         {
-            var info = prop.GetFieldInfoAndStaticType(out _);
+            var info = self.GetFieldInfoAndStaticType(out _);
             return info.GetCustomAttribute<T>();
         }
+
+        public static T GetAttribute<T>(this SerializedProperty self) where T : class
+        {
+			return self.GetAttributes<T>()?.FirstOrDefault();
+        }
+
+        public static T[] GetAttributes<T>(this SerializedProperty self) where T : class
+        {
+            var targetObj = self.GetTargetObjectWithProperty();
+			FieldInfo targetField = targetObj.GetField(self.name);
+
+            if (targetField == null)
+                return null;
+
+			return (T[])targetField.GetCustomAttributes(typeof(T), true);
+        }
+
+		public static string GetLabel(this SerializedProperty self)
+		{
+			LabelAttribute labelAttribute = self.GetAttribute<LabelAttribute>();
+
+			return (labelAttribute == null)
+				? self.displayName
+				: labelAttribute.OverriddenLabel;
+		}
+
+		public static bool IsEnabled(this SerializedProperty self)
+		{
+			var enableIfAttribute = self.GetAttribute<EnableIfAttribute>();
+
+			if (enableIfAttribute == null)
+				return true;
+
+            if (enableIfAttribute.TargetConditionValue.ToBool(out bool enabled))
+                return enabled;
+            
+            var disableIfAttribute = self.GetAttribute<DisableIfAttribute>();
+
+			if (disableIfAttribute == null)
+				return true;
+
+            if (disableIfAttribute.TargetConditionValue.ToBool(out bool disabled))
+                return !disabled;
+
+            return true;
+		}
+
+		public static bool IsVisible(this SerializedProperty self)
+		{
+			var showIfAttribute = self.GetAttribute<ShowIfAttribute>();
+
+			if (showIfAttribute == null)
+				return true;
+
+            if (showIfAttribute.TargetConditionValue.ToBool(out bool shown))
+                return shown;
+
+            var hideIfAttribute = self.GetAttribute<HideIfAttribute>();
+
+            if (hideIfAttribute == null)
+                return true;
+
+            if (hideIfAttribute.TargetConditionValue.ToBool(out bool hidden))
+                return !hidden;
+            
+            return true;
+		}
 
         #endregion
 
