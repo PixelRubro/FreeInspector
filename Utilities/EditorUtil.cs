@@ -34,16 +34,26 @@ namespace YoukaiFox.Inspector
         {
             var style = new GUIStyle(GUI.skin.box)
             {
-                padding = new RectOffset(15, 10, 5, 5)
+                padding = new RectOffset(GroupedItemIndent, GroupedItemIndent, 5, 5)
             };
 
             #if UNITY_2019_3_OR_NEWER
                 style = new GUIStyle(EditorStyles.helpBox)
                 {
-                    padding = new RectOffset(15, 10, 5, 5)
+                    padding = new RectOffset(GroupedItemIndent, GroupedItemIndent, 5, 5)
                 };
             #endif
 
+            style.stretchHeight = true;
+            return style;
+        }
+
+        public static GUIStyle FoldoutStyle()
+        {
+            var style = EditorStyles.foldout;
+            style.margin = new RectOffset(2, 2, 5, 5);
+            style.fontStyle = FontStyle.Bold;
+            style.stretchHeight = true;
             return style;
         }
     }

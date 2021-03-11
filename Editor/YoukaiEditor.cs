@@ -2,7 +2,6 @@
 using UnityEditor;
 using System.Linq;
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -20,6 +19,7 @@ namespace YoukaiFox.Inspector
         #region Attributes references
 
         private IEnumerable<SerializedProperty> _groupedFields;
+        private IEnumerable<SerializedProperty> _foldoutGroupFields;
         private IEnumerable<FieldInfo> _ungroupedFields;
         private IEnumerable<FieldInfo> _nonSerializedFields;
         private IEnumerable<FieldInfo> _serializedFields;
@@ -30,14 +30,15 @@ namespace YoukaiFox.Inspector
 
         #endregion
 
-        private List<SerializedProperty> _properties;
+        private List<SerializedProperty> _serializedProperties;
+        private Dictionary<string, SavedBool> _foldoutStates = new Dictionary<string, SavedBool>();
 
         #endregion
         
         private void OnEnable() 
         {
-            _properties = new List<SerializedProperty>();
-            _properties = FindSerializedProperties(_properties);
+            _serializedProperties = new List<SerializedProperty>();
+            _serializedProperties = FindSerializedProperties(_serializedProperties);
             FindAttributes();
         }
 
@@ -45,9 +46,9 @@ namespace YoukaiFox.Inspector
         {
             serializedObject.Update();
             DrawDefaultInspector();
-            _properties = FindSerializedProperties(_properties);
+            _serializedProperties = FindSerializedProperties(_serializedProperties);
             DrawGroups();
-            DrawUngroupedFields();
+            DrawFoldoutGroups();
             DrawButtons();
             serializedObject.ApplyModifiedProperties();
             EditorUtility.SetDirty(serializedObject.targetObject);
@@ -95,8 +96,6 @@ namespace YoukaiFox.Inspector
             serializedObject.Update();
             var visibleFields = _groupedFields.Where(f => f.IsVisible());
             var groupedFields = visibleFields.GroupBy(f => f.GetAttribute<GroupAttribute>().Name);
-            var style = EditorUtil.GroupBackgroundStyle();
-            style.stretchHeight = true;
 
             foreach (var group in groupedFields)
             {
@@ -104,20 +103,46 @@ namespace YoukaiFox.Inspector
 
                 foreach (var prop in group)
                 {
-                    EditorGUI.BeginChangeCheck();
-
-                    using (var scope = new EditorGUILayout.VerticalScope(style))
+                    using (var scope = new EditorGUILayout.VerticalScope(EditorUtil.GroupBackgroundStyle()))
                     {
-                        var propertyHeight = EditorGUI.GetPropertyHeight(prop.propertyType, new GUIContent(prop.GetLabel()));
                         EditorGUILayout.PropertyField(prop);
-
-                        if (EditorGUI.EndChangeCheck())
-                            serializedObject.ApplyModifiedProperties();
                     };
                 }
 
                 EndGroup();
             }
+            
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        private void DrawFoldoutGroups()
+        {
+            serializedObject.Update();
+            var visibleFields = _foldoutGroupFields.Where(f => f.IsVisible());
+            var foldoutFields = visibleFields.GroupBy(f => f.GetAttribute<FoldoutAttribute>().Name);
+
+            foreach (var group in foldoutFields)
+            {
+                var key = group.Key;
+
+                if (!_foldoutStates.ContainsKey(key))
+                {
+                    var savedBool = new SavedBool($"{target.GetInstanceID()}.{key}", false);
+                    _foldoutStates.Add(key, savedBool);
+                }
+                
+                _foldoutStates[key].Value = EditorGUILayout.Foldout(_foldoutStates[key].Value, key, EditorUtil.FoldoutStyle());
+
+                if (_foldoutStates[key].Value)
+                {
+                    foreach (var prop in group)
+                    {
+                        EditorGUILayout.PropertyField(prop);
+                    }
+                }
+            }
+            
+            serializedObject.ApplyModifiedProperties();
         }
 
         private void DrawUngroupedFields()
@@ -140,17 +165,21 @@ namespace YoukaiFox.Inspector
             _methodsNoArguments = _methods.Where(m => m.GetParameters().Length == 0);
             _methodsWithArguments = _methods.Where(m => m.GetParameters().Length > 0);
 
-            _groupedFields = _properties
+            _groupedFields = _serializedProperties
                 .Where(p => p.GetAttribute<GroupAttribute>() != null);
                 // .GroupBy(f => f.Name);
+
+            _foldoutGroupFields = _serializedProperties
+                .Where(f => f.GetAttribute<FoldoutAttribute>() != null);
+
             _ungroupedFields = _serializedFields
                 .Where(f => f.GetCustomAttributes(typeof(GroupAttribute), true).Length == 0);
         }
 
         private List<SerializedProperty> FindSerializedProperties(List<SerializedProperty> properties)
         {
-            if (_properties == null)
-                _properties = new List<SerializedProperty>();
+            if (_serializedProperties == null)
+                _serializedProperties = new List<SerializedProperty>();
                 
             properties.Clear();
 
