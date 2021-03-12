@@ -1,4 +1,4 @@
-namespace YoukaiFox.Inspector
+namespace YoukaiFox.Inspector.Extensions
 {
     public static class ObjectExtensions 
     {

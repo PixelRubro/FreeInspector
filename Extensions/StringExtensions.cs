@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using System;
 
-namespace YoukaiFox.Inspector
+namespace YoukaiFox.Inspector.Extensions
 {
     public static class StringExtensions 
     {

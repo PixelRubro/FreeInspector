@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace YoukaiFox.Inspector
+namespace YoukaiFox.Inspector.Utilities
 {
     public class HelperMethods 
     {

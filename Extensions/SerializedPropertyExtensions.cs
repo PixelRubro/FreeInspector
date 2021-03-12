@@ -2,10 +2,11 @@ using UnityEditor;
 using System;
 using System.Linq;
 using System.Reflection;
+using YoukaiFox.Inspector.Utilities;
 
 #if UNITY_EDITOR
 
-namespace YoukaiFox.Inspector
+namespace YoukaiFox.Inspector.Extensions
 {
     public static class SerializedPropertyExtensions
     {

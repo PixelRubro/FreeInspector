@@ -1,8 +1,9 @@
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
-namespace YoukaiFox.Inspector
+namespace YoukaiFox.Inspector.Utilities
 {
     public static class EditorUtil
     {
@@ -44,6 +45,8 @@ namespace YoukaiFox.Inspector
                 };
             #endif
 
+            // style = new GUIStyle(GUI.skin.box);
+            style.alignment = TextAnchor.MiddleLeft;
             style.stretchHeight = true;
             return style;
         }
@@ -53,6 +56,18 @@ namespace YoukaiFox.Inspector
             var style = EditorStyles.foldout;
             style.margin = new RectOffset(2, 2, 5, 5);
             style.fontStyle = FontStyle.Bold;
+            style.stretchHeight = true;
+            return style;
+        }
+
+        public static GUIStyle UngroupedFieldsStyle()
+        {
+            var style = new GUIStyle(GUI.skin.box)
+            {
+                padding = new RectOffset(GroupedItemIndent, GroupedItemIndent, 5, 5)
+            };
+
+            style.alignment = TextAnchor.MiddleLeft;
             style.stretchHeight = true;
             return style;
         }

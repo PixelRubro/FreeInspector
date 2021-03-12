@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 using System.Reflection;
-using System;
+using YoukaiFox.Inspector.Extensions;
 using System.Runtime.CompilerServices;
 
 namespace YoukaiFox.Inspector
