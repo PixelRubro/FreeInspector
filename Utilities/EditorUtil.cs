@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -80,6 +81,18 @@ namespace YoukaiFox.Inspector.Utilities
             lineStyle.fixedHeight = 1;
             return lineStyle;
         }
+
+		public static Type GetListElementType(Type listType)
+		{
+			if (listType.IsGenericType)
+			{
+				return listType.GetGenericArguments()[0];
+			}
+			else
+			{
+				return listType.GetElementType();
+			}
+		}
     }
 }
 #endif
