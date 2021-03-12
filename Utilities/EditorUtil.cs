@@ -71,6 +71,15 @@ namespace YoukaiFox.Inspector.Utilities
             style.stretchHeight = true;
             return style;
         }
+
+        public static GUIStyle HorizontalLineStyle()
+        {
+            var lineStyle = new GUIStyle();
+            lineStyle.normal.background = EditorGUIUtility.whiteTexture;
+            lineStyle.margin = new RectOffset(2, 2, 5, 5);
+            lineStyle.fixedHeight = 1;
+            return lineStyle;
+        }
     }
 }
 #endif

@@ -3,7 +3,8 @@ using UnityEditor;
 
 namespace YoukaiFox.Inspector
 {
-    public abstract class YoukaiDecoratorDrawer: DecoratorDrawer 
+
+    public abstract class YoukaiDecoratorDrawer : DecoratorDrawer 
     {
         protected MessageType ConvertMessageType(EMessageType eMessageType)
         {

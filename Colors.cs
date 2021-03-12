@@ -1,8 +1,13 @@
 using UnityEngine;
 
-namespace YoukaiFox.Inspector.Utilities
+namespace YoukaiFox.Inspector
 {
-    public class Colors 
+    public enum EColor
+    {
+        Clear, White, Black, Gray, Red, Pink, Orange, Yellow, Green, Blue, Indigo, Violet
+    }
+
+    public static class Colors 
     {
         // Credits to github.com/LotteMakesStuff for putting it together.
         // NOTE: The follwing color names come from the CSS3 specification, Section 4.3 Extended Color Keywords
@@ -148,5 +153,39 @@ namespace YoukaiFox.Inspector.Utilities
         public static readonly Color WhiteSmoke = new Color32(245,245,245,255);
         public static readonly Color Yellow = new Color32(255,255,0,255);
         public static readonly Color YellowGreen = new Color32(154,205,50,255);
+
+        public static Color FromEColor(this EColor color)
+        {
+            switch (color)
+            {
+                case EColor.Clear:
+                    return new Color32(0, 0, 0, 0);
+                case EColor.White:
+                    return new Color32(255, 255, 255, 255);
+                case EColor.Black:
+                    return new Color32(0, 0, 0, 255);
+                case EColor.Gray:
+                    return new Color32(128, 128, 128, 255);
+                case EColor.Red:
+                    return new Color32(255, 0, 63, 255);
+                case EColor.Pink:
+                    return new Color32(255, 152, 203, 255);
+                case EColor.Orange:
+                    return new Color32(255, 128, 0, 255);
+                case EColor.Yellow:
+                    return new Color32(255, 211, 0, 255);
+                case EColor.Green:
+                    return new Color32(98, 200, 79, 255);
+                case EColor.Blue:
+                    return new Color32(0, 135, 189, 255);
+                case EColor.Indigo:
+                    return new Color32(75, 0, 130, 255);
+                case EColor.Violet:
+                    return new Color32(128, 0, 255, 255);
+                default:
+                    return new Color32(0, 0, 0, 255);
+            }
+        }
+
     }
 }
