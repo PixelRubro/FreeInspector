@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace YoukaiFox.Inspector.Utilities
+namespace YoukaiFox.Inspector.CustomStructures
 {
 	public class SavedBool
 	{
