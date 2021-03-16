@@ -70,7 +70,7 @@ namespace YoukaiFox.Inspector
 
             // DrawDefaultInspector();
             serializedObject.ApplyModifiedProperties();
-            EditorUtility.SetDirty(serializedObject.targetObject);
+            // EditorUtility.SetDirty(serializedObject.targetObject);
             Repaint();
         }
 
