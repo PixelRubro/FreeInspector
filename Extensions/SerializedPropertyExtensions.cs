@@ -3,6 +3,8 @@ using System;
 using System.Linq;
 using System.Reflection;
 using YoukaiFox.Inspector.Utilities;
+using YoukaiFox.Inspector.CustomStructures;
+using UnityEngine;
 
 #if UNITY_EDITOR
 
@@ -213,23 +215,58 @@ namespace YoukaiFox.Inspector.Extensions
 		public static bool IsVisible(this SerializedProperty self)
 		{
 			var showIfAttribute = self.GetAttribute<ShowIfAttribute>();
-
-			if (showIfAttribute == null)
-				return true;
-
-            if (showIfAttribute.TargetConditionValue.ToBool(out bool shown))
-                return shown;
-
             var hideIfAttribute = self.GetAttribute<HideIfAttribute>();
 
-            if (hideIfAttribute == null)
-                return true;
+			if ((showIfAttribute == null) && (hideIfAttribute == null))
+				return true;
 
-            if (hideIfAttribute.TargetConditionValue.ToBool(out bool hidden))
-                return !hidden;
+            var targetObject = self.GetTargetObjectWithProperty();
+
+            if (showIfAttribute != null)
+            {
+                return targetObject.GetConditionValue(showIfAttribute.PropertyName);
+            }
+
+            if (hideIfAttribute != null)
+            {
+                return targetObject.GetConditionValue(hideIfAttribute.PropertyName);
+            }
             
             return true;
 		}
+
+        public static EGroupingType GetGroupingType(this SerializedProperty self)
+        {
+            if (self.GetAttribute<GroupAttribute>() != null)
+                return EGroupingType.BoxGroup;
+
+            if (self.GetAttribute<FoldoutAttribute>() != null)
+                return EGroupingType.Foldout;
+
+            return EGroupingType.None;
+        }
+
+        public static EGroupingType GetGroupingType(this SerializedProperty self, out string groupingName)
+        {
+            var groupAttribute = self.GetAttribute<GroupAttribute>();
+
+            if (groupAttribute != null)
+            {
+                groupingName = groupAttribute.Name;
+                return EGroupingType.BoxGroup;
+            }
+
+            var foldoutAttribute = self.GetAttribute<FoldoutAttribute>();
+
+            if (foldoutAttribute != null)
+            {
+                groupingName = foldoutAttribute.Name;
+                return EGroupingType.Foldout;
+            }
+
+            groupingName = "none";
+            return EGroupingType.None;
+        }
 
         #endregion
 

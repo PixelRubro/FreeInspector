@@ -118,5 +118,32 @@ namespace YoukaiFox.Inspector.Extensions
         {
             return GetAllMethods(self, m => m.Name.Equals(methodName, StringComparison.InvariantCulture)).FirstOrDefault();
         }
+
+        public static bool GetConditionValue(this object self, string validationPropertyName)
+        {
+            var conditionField = self.GetField(validationPropertyName);
+
+            if ((conditionField != null) && (conditionField.FieldType == typeof(bool)))
+            {
+                return (bool) conditionField.GetValue(self);
+            }
+
+            var conditionProperty = self.GetProperty(validationPropertyName);
+
+            if ((conditionProperty != null) && (conditionProperty.PropertyType == typeof(bool)))
+            {
+                return (bool) conditionProperty.GetValue(self);
+            }
+
+            var conditionMethod = self.GetMethod(validationPropertyName);
+
+            if ((conditionMethod != null) && (conditionMethod.ReturnType == typeof(bool)) &&
+                (conditionMethod.GetParameters().Length == 0))
+            {
+                return (bool) conditionMethod.Invoke(self, null);
+            }
+
+            return false;
+        }
     }
 }

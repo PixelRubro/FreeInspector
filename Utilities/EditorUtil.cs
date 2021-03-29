@@ -8,6 +8,7 @@ namespace YoukaiFox.Inspector.Utilities
 {
     public static class EditorUtil
     {
+        public static int FoldoutIndent = 1;
         public static int GroupedItemIndent = 15;
 
         public static float GroupLabelOffset()
