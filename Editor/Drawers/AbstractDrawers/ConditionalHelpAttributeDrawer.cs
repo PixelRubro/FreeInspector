@@ -30,18 +30,20 @@ namespace YoukaiFox.Inspector
                     var lowerRectSize = new Vector2(position.size.x, position.size.y - GetHelpBoxHeight());
                     var lowerRect = new Rect(lowerRectPosition, lowerRectSize);
                     EditorGUI.HelpBox(upperRect, conditionalHelpAttribute.HelpText, ConvertMessageType(conditionalHelpAttribute.MessageType));
-                    EditorGUI.PropertyField(lowerRect, property);
+                    DrawProperty(position, property, label);
+                    // EditorGUI.PropertyField(lowerRect, property);
                 }
                 else
                 {
-                    EditorGUI.PropertyField(position, property);
+                    DrawProperty(position, property, label);
+                    // EditorGUI.PropertyField(position, property);
                 }
             }
             else
             {
                 if (ComparedObjectValueIsTrue(property))
                 {
-                    EditorGUI.PropertyField(position, property);
+                    DrawProperty(position, property, label);
                 }
                 else
                 {
@@ -54,7 +56,7 @@ namespace YoukaiFox.Inspector
                     var lowerRectSize = new Vector2(position.size.x, position.size.y - GetHelpBoxHeight());
                     var lowerRect = new Rect(lowerRectPosition, lowerRectSize);
                     EditorGUI.HelpBox(upperRect, conditionalHelpAttribute.HelpText, ConvertMessageType(conditionalHelpAttribute.MessageType));
-                    EditorGUI.PropertyField(lowerRect, property);
+                    DrawProperty(position, property, label);
                 }
             }
         }

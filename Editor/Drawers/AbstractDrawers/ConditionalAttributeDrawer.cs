@@ -22,13 +22,13 @@ namespace YoukaiFox.Inspector
                 switch (drawing)
                 {
                     case PropertyDrawing.Show:
-                        EditorGUI.PropertyField(position, property);
+                        DrawProperty(position, property, label);
                         break;
                     case PropertyDrawing.Hide:
                         break;
                     case PropertyDrawing.Enable:
                         GUI.enabled = true;
-                        EditorGUI.PropertyField(position, property);
+                        DrawProperty(position, property, label);
                         break;
                     case PropertyDrawing.Disable:
                         GUI.enabled = false;
@@ -46,7 +46,7 @@ namespace YoukaiFox.Inspector
                     case PropertyDrawing.Show:
                         break;
                     case PropertyDrawing.Hide:
-                        EditorGUI.PropertyField(position, property);
+                        DrawProperty(position, property, label);
                         break;
                     case PropertyDrawing.Enable:
                         GUI.enabled = false;
@@ -55,7 +55,7 @@ namespace YoukaiFox.Inspector
                         break;
                     case PropertyDrawing.Disable:
                         GUI.enabled = true;
-                        EditorGUI.PropertyField(position, property);
+                        DrawProperty(position, property, label);
                         break;
                     default:
                         throw new System.ArgumentOutOfRangeException();

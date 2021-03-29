@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEditor;
+using YoukaiFox.Inspector.Extensions;
 
 namespace YoukaiFox.Inspector
 {
@@ -25,6 +26,19 @@ namespace YoukaiFox.Inspector
                 default:
                     throw new System.ArgumentOutOfRangeException();
             }
+        }
+
+        protected void DrawProperty(Rect position, SerializedProperty property, GUIContent label)
+        {
+            if (property.GetAttribute<ReadOnlyAttribute>() != null)
+            {
+                EditorGUI.BeginDisabledGroup(true);
+                EditorGUI.PropertyField(position, property, label, property.isExpanded);
+                EditorGUI.EndDisabledGroup();
+                return;
+            }
+
+            EditorGUI.PropertyField(position, property);
         }
         
         // public void DrawDefaultPropertyAndHelpBox(Rect rect, SerializedProperty property, string message, MessageType messageType)
