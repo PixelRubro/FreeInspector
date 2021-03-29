@@ -68,7 +68,7 @@ namespace YoukaiFox.Inspector
             serializedObject.Update();
             _serializedProperties = FindSerializedProperties(_serializedProperties);
             // CollectPropertiesInfo();
-            DrawScriptField();
+            // DrawDefaultInspector();
             DrawFields();
             serializedObject.ApplyModifiedProperties();
         }
@@ -94,6 +94,8 @@ namespace YoukaiFox.Inspector
 
         private void DrawFields()
         {
+            DrawScriptField();
+
             if (_drawFieldsInOrder)
                 DrawFieldsInOrder();
             else
@@ -277,13 +279,12 @@ namespace YoukaiFox.Inspector
         {
             serializedObject.Update();
             DrawSeparatorLine(Color.gray);
-            var visibleFields = _ungroupedFields.Where(f => f.IsVisible());
             bool skippedScriptField = false;
 
             if (_groupLooseFields)
                 BeginGroup("Remaining fields");
 
-            foreach (var field in visibleFields)
+            foreach (var field in _ungroupedFields)
             {
 			    if ((!skippedScriptField) && (field.name.Equals("m_Script", System.StringComparison.Ordinal)))
                 {

@@ -28,6 +28,7 @@ namespace YoukaiFox.Inspector
         public ConditionalAttribute(string comparedPropertyName)
         {
             PropertyName = comparedPropertyName;
+            TargetConditionValue = null;
         }
 
         /// <summary>
