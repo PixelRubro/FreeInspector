@@ -43,6 +43,19 @@ namespace YoukaiFox.Inspector
         #region Settings
 
         private bool _drawUngroupedFieldsFirst = true;
+        private bool _foldNonSerializedFields = true;
+
+        #endregion
+
+        #region Control fields
+
+        private bool _showFoldedNonSerializedFields = true;
+
+        #endregion
+
+        #region Constant fields
+
+        private const string NonSerializedFieldsHeader = "Non-serialized fields";
 
         #endregion
 
@@ -234,14 +247,43 @@ namespace YoukaiFox.Inspector
 
         private void DrawNonSerializedProperties()
         {
+            if ((!_nonSerializedFields.Any()) && (!_nativeProperties.Any()))
+                return;
+
+            if (_foldNonSerializedFields)
+            {
+                EditorGUILayout.Space();
+                _showFoldedNonSerializedFields = EditorGUILayout.Foldout(
+                    _showFoldedNonSerializedFields, NonSerializedFieldsHeader, EditorUtil.FoldoutStyle());
+            }
+
+            if ((_foldNonSerializedFields) && (!_showFoldedNonSerializedFields))
+                return;
+
             foreach (var field in _nonSerializedFields)
             {
-                DrawNonSerializedProperty(serializedObject.targetObject, field);
+                if (_foldNonSerializedFields)
+                {
+                    using (new EditorGUI.IndentLevelScope(EditorUtil.FoldoutIndent))
+                    {
+                        DrawNonSerializedProperty(serializedObject.targetObject, field);
+                    }
+                }
+                else
+                    DrawNonSerializedProperty(serializedObject.targetObject, field);
             }
 
             foreach (var prop in _nativeProperties)
             {
-                DrawNonSerializedProperty(serializedObject.targetObject, prop);
+                if (_foldNonSerializedFields)
+                {
+                    using (new EditorGUI.IndentLevelScope(EditorUtil.FoldoutIndent))
+                    {
+                        DrawNonSerializedProperty(serializedObject.targetObject, prop);
+                    }
+                }
+                else
+                    DrawNonSerializedProperty(serializedObject.targetObject, prop);
             }
         }
 
@@ -292,6 +334,13 @@ namespace YoukaiFox.Inspector
 
         private void DrawDisabledProperty(object value, string labelText)
         {
+            if (value == null)
+            {
+                var message = $"Value {value} is null, can't draw field.";
+                DrawErrorMessage(message);
+                return;
+            }
+
             using (new EditorGUI.DisabledScope(disabled: true))
             {
                 Type valueType = value.GetType();
