@@ -27,7 +27,7 @@ namespace YoukaiFox.Inspector
         private IEnumerable<IGrouping<string, SerializedProperty>> _boxGroupedFields;
         private IEnumerable<IGrouping<string, SerializedProperty>> _foldoutGroupedFields;
         private IEnumerable<SerializedProperty> _foldoutGroupFields;
-        private IEnumerable<SerializedProperty> _reorderableListProperties;
+        private List<SerializedProperty> _reorderableListProperties;
         private IEnumerable<SerializedProperty> _ungroupedFields;
         private IEnumerable<FieldInfo> _nonSerializedFields;
         private IEnumerable<PropertyInfo> _nativeProperties;
@@ -290,7 +290,7 @@ namespace YoukaiFox.Inspector
             DrawDisabledProperty(propertyInfo.GetValue(targetObject), ObjectNames.NicifyVariableName(propertyInfo.Name));
         }
 
-        public static void DrawDisabledProperty(object value, string labelText)
+        private void DrawDisabledProperty(object value, string labelText)
         {
             using (new EditorGUI.DisabledScope(disabled: true))
             {
@@ -358,9 +358,18 @@ namespace YoukaiFox.Inspector
                 }
                 else
                 {
-                    Debug.LogError("Couldn't draw the property.");
+                    var message = $"Can't draw a field of type {valueType}.";
+                    DrawErrorMessage(message);
                 }
             }
+        }
+
+        private void DrawErrorMessage(string errorMessage)
+        {
+            var contentColor = GUI.contentColor;
+            GUI.contentColor = Color.red;
+            EditorGUILayout.LabelField(errorMessage);
+            GUI.contentColor = contentColor;
         }
 
         #endregion
@@ -443,8 +452,11 @@ namespace YoukaiFox.Inspector
 
         private void CollectReorderableListInfo()
         {
+            _reorderableListProperties.Clear();
+
             _reorderableListProperties = _serializedProperties
-                .Where(p => p.GetAttribute<ReorderableListAttribute>() != null);
+                .Where(p => p.GetAttribute<ReorderableListAttribute>() != null)
+                .ToList();
 
             foreach (var list in _reorderableListProperties)
             {
@@ -495,7 +507,7 @@ namespace YoukaiFox.Inspector
         {
             var lists = _reorderableListProperties.ToArray();
 
-            if (lists.Length == 0)
+            if (_reorderableListProperties.Count <= 1)
                 return lists[0];
 
             // Debug.Log("Currently, only ONE reorderable list by inspector is allowed.");
