@@ -6,13 +6,8 @@ using System.Reflection;
 namespace YoukaiFox.Inspector
 {
     [CustomPropertyDrawer(typeof(AutoSetAttribute))]
-    public class AutoSetAttributeDrawer : PropertyValidationDrawer
+    public class AutoSetAttributeDrawer : YoukaiPropertyDrawer
     {
-        public override string GetWarningMessage()
-        {
-            return "Couldn't find a suitable component!";
-        }
-
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             var autosetAttribute = attribute as AutoSetAttribute;
@@ -25,7 +20,7 @@ namespace YoukaiFox.Inspector
             }
 
             if (component == null)
-                EditorGUI.PropertyField(position, property, label);
+                DrawErrorMessage(position, "Couldn't find a suitable component!");
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)

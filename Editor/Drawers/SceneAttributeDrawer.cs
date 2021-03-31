@@ -8,13 +8,14 @@ using System.Text.RegularExpressions;
 namespace YoukaiFox.Inspector
 {
     [CustomPropertyDrawer(typeof(SceneAttribute))]
-    public class SceneAttributeDrawer : PropertyValidationDrawer
+    public class SceneAttributeDrawer : YoukaiPropertyDrawer
     {
         public override void OnGUI (Rect position, SerializedProperty property, GUIContent label) {
 
             if (property.propertyType != SerializedPropertyType.String)
             {
-                Debug.LogError(GetWarningMessage());
+                var message = "ERROR! Not a string field.";
+                DrawErrorMessage(position, message);
                 return;
             }
             
@@ -45,11 +46,6 @@ namespace YoukaiFox.Inspector
 
             Debug.LogError($"Scene {sceneObjectName} is not added to \"Scenes in Build\" in \"Build Settings\".");
             return null;
-        }
-
-        public override string GetWarningMessage()
-        {
-            return "The Scene attribute only works with strings";
         }
     }
 }

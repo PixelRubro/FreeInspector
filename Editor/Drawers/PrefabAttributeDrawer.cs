@@ -6,15 +6,10 @@ using System.Linq;
 namespace YoukaiFox.Inspector
 {
     [CustomPropertyDrawer(typeof(PrefabAttribute))]
-    public class PrefabAttributeDrawer : PropertyValidationDrawer 
+    public class PrefabAttributeDrawer : YoukaiPropertyDrawer 
     {
         private Texture2D _prefabTexture;
         private string _graphicsPath;
-
-        public override string GetWarningMessage()
-        {
-            return "Not a prefab instance!";
-        }
 
         private bool IsPropertyValid(Object value, SerializedProperty property)
         {
@@ -24,13 +19,10 @@ namespace YoukaiFox.Inspector
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) 
         {
             EditorGUI.BeginChangeCheck();
-            
             FindPrefabIcon();
 
             if (_prefabTexture)
-            {
                 label.image = _prefabTexture;
-            }
 
             EditorGUI.PropertyField(position, property, label);
 

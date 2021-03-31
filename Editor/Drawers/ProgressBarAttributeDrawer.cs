@@ -4,13 +4,14 @@ using UnityEditor;
 namespace YoukaiFox.Inspector
 {
     [CustomPropertyDrawer(typeof(ProgressBarAttribute))]
-    public class ProgressBarAttributeDrawer: PropertyValidationDrawer 
+    public class ProgressBarAttributeDrawer: YoukaiPropertyDrawer 
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) 
         {
             if (property.propertyType != SerializedPropertyType.Float)
             {
-                GUI.Label(position, GetWarningMessage());
+                var message = "ERROR: the progress bar attribute can only be applied to float fields!";
+                DrawErrorMessage(position, message);
                 return;
             }
 
@@ -46,11 +47,6 @@ namespace YoukaiFox.Inspector
                 return 0;
 
             return base.GetPropertyHeight(property, label);
-        }
-
-        public override string GetWarningMessage()
-        {
-            return "ERROR: the progress bar attribute can only be applied to float fields!";
         }
     }
 }

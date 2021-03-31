@@ -6,7 +6,7 @@ using UnityEditor;
 namespace YoukaiFox.Inspector
 {
     [CustomPropertyDrawer(typeof(TagAttribute))]
-    public class TagAttributeDrawer : PropertyValidationDrawer
+    public class TagAttributeDrawer : YoukaiPropertyDrawer
     {
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
@@ -15,18 +15,14 @@ namespace YoukaiFox.Inspector
 
             if (property.propertyType != SerializedPropertyType.String)
             {
-                label.text = GetWarningMessage();
-                EditorGUI.PropertyField(position, property, label);
+                var message = "ERROR! Not a string field.";
+                DrawErrorMessage(position, message);
                 return;
             }
 
             var tagAttribute = attribute as TagAttribute;
             property.stringValue = EditorGUI.TagField(position, label, property.stringValue);
             EditorGUI.EndProperty();
-        }
-        public override string GetWarningMessage()
-        {
-            return "ERROR! Not a string field.";
         }
     }
 }

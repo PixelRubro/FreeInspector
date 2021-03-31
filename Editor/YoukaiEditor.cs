@@ -452,8 +452,6 @@ namespace YoukaiFox.Inspector
 
         private void CollectReorderableListInfo()
         {
-            _reorderableListProperties.Clear();
-
             _reorderableListProperties = _serializedProperties
                 .Where(p => p.GetAttribute<ReorderableListAttribute>() != null)
                 .ToList();

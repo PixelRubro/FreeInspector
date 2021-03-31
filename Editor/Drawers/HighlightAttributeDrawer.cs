@@ -43,8 +43,8 @@ namespace YoukaiFox.Inspector
 
             if (highlightAttribute.Value == null)
             {
-                label.text = $"Couldn't find a method called {highlightAttribute.ValidationMethodName}.";
-                EditorGUI.PropertyField(position, property, label);
+                var message = $"Couldn't find a method called {highlightAttribute.ValidationMethodName}.";
+                DrawErrorMessage(position, message);
                 return;
             }
 
@@ -54,8 +54,8 @@ namespace YoukaiFox.Inspector
 
             if (targetMethod == null)
             {
-                label.text = "You can't use a null value when using method validation.";
-                EditorGUI.PropertyField(position, property, label);
+                var message = "You can't use a null value when using method validation.";
+                DrawErrorMessage(position, message);
                 return;
             }
 
@@ -80,8 +80,8 @@ namespace YoukaiFox.Inspector
 
             if (!objectValue.ToBool(out bool memberValue))
             {
-                label.text = $"Value {objectValue} is not a boolean";
-                EditorGUI.PropertyField(position, property, label);
+                var message = $"Value {objectValue} is not a boolean";
+                DrawErrorMessage(position, message);
                 return;
             }
 

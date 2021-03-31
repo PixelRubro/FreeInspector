@@ -41,16 +41,19 @@ namespace YoukaiFox.Inspector
             EditorGUI.PropertyField(position, property);
         }
 
-        protected void DrawDisabledField(Rect position, GUIContent label, string fieldValue)
+        protected void DrawErrorMessage(Rect position, string errorMessage)
         {
-            EditorGUI.BeginDisabledGroup(true);
+            var padding = EditorGUIUtility.standardVerticalSpacing;
 
-            if ((fieldValue.Equals("true")) || (fieldValue.Equals("false")))
-                EditorGUI.LabelField(position, label.text, EditorStyles.toggle);
-            else
-                EditorGUI.LabelField(position, label.text, fieldValue);
-                
-            EditorGUI.EndDisabledGroup();
+            var highlightRect = new Rect(position.x - padding, position.y - padding,
+                position.width + (padding * 2), position.height + (padding * 2));
+
+            EditorGUI.DrawRect(highlightRect, Color.red);
+
+            var contentColor = GUI.contentColor;
+            GUI.contentColor = Color.white;
+            EditorGUI.LabelField(position, errorMessage);
+            GUI.contentColor = contentColor;
         }
     }
 }
