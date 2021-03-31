@@ -99,7 +99,6 @@ namespace YoukaiFox.Inspector
 
             if (!comparisonAttribute.TargetConditionValue.ToBool(out bool targetConditionValue))
                 Debug.LogError($"Value {comparisonAttribute.TargetConditionValue} is not a boolean");
-            Debug.Log($"{comparisonAttribute.PropertyName} {targetConditionValue}");
 
             return memberValue == targetConditionValue;
         }
