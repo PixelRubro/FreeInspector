@@ -114,29 +114,36 @@ namespace YoukaiFox.Inspector
             {
                 var buttonAttribute = Attribute.GetCustomAttribute(method, typeof(ButtonAttribute)) as ButtonAttribute;
 
-                if (buttonAttribute == null)
-                    continue;
-
-                var previousGuiStatus = GUI.enabled;
-
-                if (buttonAttribute.ButtonMode == EButtonMode.AlwaysEnabled)
-                    GUI.enabled = true;
-                else if (buttonAttribute.ButtonMode == EButtonMode.EditorOnly)
-                    GUI.enabled = !EditorApplication.isPlaying;
-                else
-                    GUI.enabled = EditorApplication.isPlaying;
-
-                var buttonName = String.IsNullOrEmpty(buttonAttribute.Label) ?
-                    ObjectNames.NicifyVariableName(method.Name) :
-                    buttonAttribute.Label;
-
-                if (!GUILayout.Button(buttonName))
-                    continue;
-                
-                var defaultParameters = method.GetParameters().Select(p => p.DefaultValue).ToArray();
-                method.Invoke(serializedObject.targetObject, defaultParameters);
-                GUI.enabled = previousGuiStatus;
+                if (buttonAttribute != null)
+                    DrawButton(buttonAttribute, method);
             }
+        }
+
+        private void DrawButton(ButtonAttribute buttonAttribute, MethodInfo method)
+        {
+            var previousGuiStatus = GUI.enabled;
+
+            if (buttonAttribute.ButtonMode == EButtonMode.AlwaysEnabled)
+                GUI.enabled = true;
+            else if (buttonAttribute.ButtonMode == EButtonMode.EditorOnly)
+                GUI.enabled = !EditorApplication.isPlaying;
+            else
+                GUI.enabled = EditorApplication.isPlaying;
+
+            var buttonName = String.IsNullOrEmpty(buttonAttribute.Label) ?
+                ObjectNames.NicifyVariableName(method.Name) :
+                buttonAttribute.Label;
+
+            if (!GUILayout.Button(buttonName))
+                return;
+
+            var arguments = buttonAttribute.Arguments;
+
+            if (buttonAttribute.Arguments == null)
+                arguments = method.GetParameters().Select(p => p.DefaultValue).ToArray();
+            
+            method.Invoke(serializedObject.targetObject, arguments);
+            GUI.enabled = previousGuiStatus;
         }
 
         private void DrawGroup(IGrouping<string, SerializedProperty> group)

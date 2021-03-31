@@ -11,8 +11,7 @@ namespace YoukaiFox.Inspector
 
     [System.AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     /// <summary>
-    /// Apply this attribute to a method with no arguments for 
-    /// calling it in the inspector via a button.
+    /// Apply this attribute to a method to call it in the inspector via button.
     /// </summary>
     public sealed class ButtonAttribute : PropertyAttribute
     {
@@ -27,18 +26,33 @@ namespace YoukaiFox.Inspector
         public EButtonMode ButtonMode;
 
         /// <summary>
-        /// Apply this attribute to a method with no arguments for 
-        /// calling it in the inspector via a button.
+        /// The parameters list of the method.
+        /// </summary>
+        public System.Object[] Arguments = null;
+
+        /// <summary>
+        /// Creates a button for a method to call it from the inspector.
         /// </summary>
         /// <param name="buttonMode">Changes when the button should be enabled.</param>
         public ButtonAttribute(EButtonMode buttonMode = EButtonMode.AlwaysEnabled)
         {
             ButtonMode = buttonMode;
+            Arguments = null;
         }
 
         /// <summary>
-        /// Apply this attribute to a method with no arguments for 
-        /// calling it in the inspector via a button.
+        /// Creates a button for a method with arguments to call it from the inspector.
+        /// </summary>
+        /// <param name="buttonMode">Changes when the button should be enabled.</param>
+        /// <param name="arguments">The parameters list of the method.</param>
+        public ButtonAttribute(EButtonMode buttonMode = EButtonMode.AlwaysEnabled, params System.Object[] arguments)
+        {
+            ButtonMode = buttonMode;
+            Arguments = arguments;
+        }
+
+        /// <summary>
+        /// Creates a button for a method to call it from the inspector.
         /// </summary>
         /// <param name="label">Button label shown in the inspector.</param>
         /// <param name="buttonMode">Changes when the button should be enabled.</param>
@@ -46,6 +60,18 @@ namespace YoukaiFox.Inspector
         {
             Label = label;
             ButtonMode = buttonMode;
+            Arguments = null;
+        }
+
+        /// <summary>
+        /// Creates a button for a method with arguments to call it from the inspector.
+        /// </summary>
+        /// <param name="buttonMode">Changes when the button should be enabled.</param>
+        /// <param name="arguments">The parameters list of the method.</param>
+        public ButtonAttribute(string label, EButtonMode buttonMode = EButtonMode.AlwaysEnabled, params System.Object[] arguments)
+        {
+            ButtonMode = buttonMode;
+            Arguments = arguments;
         }
     }
 }
