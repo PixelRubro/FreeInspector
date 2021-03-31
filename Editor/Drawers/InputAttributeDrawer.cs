@@ -6,7 +6,7 @@ using System.Linq;
 namespace YoukaiFox.Inspector
 {
     [CustomPropertyDrawer(typeof(InputAttribute))]
-    public class InputAttributeDrawer: PropertyDrawer 
+    public class InputAttributeDrawer: PropertyValidationDrawer 
     {
         private const string InputManagerPath = "ProjectSettings/InputManager.asset";
 		private const string AxesPropertyName = "m_Axes";
@@ -16,7 +16,8 @@ namespace YoukaiFox.Inspector
         {
             if (property.propertyType != SerializedPropertyType.String)
             {
-                Debug.LogError("Only string type fields are supported by the Input attribute");
+                label.text = GetWarningMessage();
+                EditorGUI.PropertyField(position, property, label);
                 return;
             }
 
@@ -50,6 +51,11 @@ namespace YoukaiFox.Inspector
                 property.stringValue = axesArray[selectedOptionIndex];
             else
                 property.stringValue = string.Empty;
+        }
+
+        public override string GetWarningMessage()
+        {
+            return "ERROR! Not a string field.";
         }
     }
 }
