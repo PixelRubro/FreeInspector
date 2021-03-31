@@ -40,25 +40,17 @@ namespace YoukaiFox.Inspector
 
             EditorGUI.PropertyField(position, property);
         }
-        
-        // public void DrawDefaultPropertyAndHelpBox(Rect rect, SerializedProperty property, string message, MessageType messageType)
-		// {
-		// 	float indentLength = NaughtyEditorGUI.GetIndentLength(rect);
-		// 	Rect helpBoxRect = new Rect(
-		// 		rect.x + indentLength,
-		// 		rect.y,
-		// 		rect.width - indentLength,
-		// 		GetHelpBoxHeight());
 
-		// 	NaughtyEditorGUI.HelpBox(helpBoxRect, message, MessageType.Warning, context: property.serializedObject.targetObject);
+        protected void DrawDisabledField(Rect position, GUIContent label, string fieldValue)
+        {
+            EditorGUI.BeginDisabledGroup(true);
 
-		// 	Rect propertyRect = new Rect(
-		// 		rect.x,
-		// 		rect.y + GetHelpBoxHeight(),
-		// 		rect.width,
-		// 		GetPropertyHeight(property));
-
-		// 	EditorGUI.PropertyField(propertyRect, property, true);
-		// }
+            if ((fieldValue.Equals("true")) || (fieldValue.Equals("false")))
+                EditorGUI.LabelField(position, label.text, EditorStyles.toggle);
+            else
+                EditorGUI.LabelField(position, label.text, fieldValue);
+                
+            EditorGUI.EndDisabledGroup();
+        }
     }
 }

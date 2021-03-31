@@ -30,24 +30,21 @@ namespace YoukaiFox.Inspector
         private IEnumerable<SerializedProperty> _reorderableListProperties;
         private IEnumerable<SerializedProperty> _ungroupedFields;
         private List<InspectorField> _fields = new List<InspectorField>();
-        // private HashSet<string> _drawnGroups = new HashSet<string>();
-        // private IEnumerable<FieldInfo> _nonSerializedFields;
-        // private IEnumerable<FieldInfo> _serializedFields;
-        // private IEnumerable<PropertyInfo> _nativeProperties;
+        private IEnumerable<FieldInfo> _nonSerializedFields;
+        private IEnumerable<PropertyInfo> _nativeProperties;
         private IEnumerable<MethodInfo> _methods;
         private IEnumerable<MethodInfo> _methodsNoArguments;
         private IEnumerable<MethodInfo> _methodsWithArguments;
 
         #endregion
 
-        private List<SerializedProperty> _serializedProperties;
+        private List<SerializedProperty> _serializedProperties = new List<SerializedProperty>();
         private Dictionary<string, SavedBool> _foldoutStates = new Dictionary<string, SavedBool>();
         private HashSet<ReorderableList> _reorderableLists = new HashSet<ReorderableList>();
         private int _reorderableListIndex;
         private bool _drawSeparators = false;
         private bool _drawFieldsInOrder = false;
         private bool _drawLooseFieldsFirst = true;
-        private bool _groupLooseFields = false;
 
         #endregion
         
@@ -67,16 +64,9 @@ namespace YoukaiFox.Inspector
         {
             serializedObject.Update();
             _serializedProperties = FindSerializedProperties(_serializedProperties);
-            // CollectPropertiesInfo();
-            // DrawDefaultInspector();
             DrawFields();
             serializedObject.ApplyModifiedProperties();
         }
-
-        // public override bool RequiresConstantRepaint()
-        // {
-        //     return false;
-        // }
 
         private void DrawScriptField()
         {
@@ -95,11 +85,7 @@ namespace YoukaiFox.Inspector
         private void DrawFields()
         {
             DrawScriptField();
-
-            if (_drawFieldsInOrder)
-                DrawFieldsInOrder();
-            else
-                DrawFieldsBySections();
+            DrawFieldsBySections();
         }
 
         private void DrawFieldsInOrder()
@@ -193,7 +179,6 @@ namespace YoukaiFox.Inspector
 
         private void DrawGroup(IGrouping<string, SerializedProperty> group)
         {
-            serializedObject.Update();
             BeginGroup(group.Key);
 
             foreach (var field in group)
@@ -202,13 +187,12 @@ namespace YoukaiFox.Inspector
                 {
                     using (var scope = new EditorGUILayout.VerticalScope(EditorUtil.GroupBackgroundStyle()))
                     {
-                        EditorGUILayout.PropertyField(field, true);
+                        DrawSerializedProperty(field, true);
                     };
                 }
             }
 
             EndGroup();
-            serializedObject.ApplyModifiedProperties();
         }
 
         private void DrawAllGroups()
@@ -223,8 +207,6 @@ namespace YoukaiFox.Inspector
 
         private void DrawFoldoutGroup(IGrouping<string, SerializedProperty> foldoutGroup)
         {
-            serializedObject.Update();
-
             var key = foldoutGroup.Key;
 
             if (!_foldoutStates.ContainsKey(key))
@@ -235,27 +217,23 @@ namespace YoukaiFox.Inspector
 
             _foldoutStates[key].Value = EditorGUILayout.Foldout(_foldoutStates[key].Value, key, EditorUtil.FoldoutStyle());
 
-            if (_foldoutStates[key].Value)
+            if (!_foldoutStates[key].Value)
+                return;
+
+            foreach (var field in foldoutGroup)
             {
-                foreach (var field in foldoutGroup)
+                if (field.IsVisible())
                 {
-                    if (field.IsVisible())
+                    using (new EditorGUI.IndentLevelScope(EditorUtil.FoldoutIndent))
                     {
-                        using (new EditorGUI.IndentLevelScope(EditorUtil.FoldoutIndent))
-                        {
-                            EditorGUILayout.PropertyField(field, true);
-                        }
+                        DrawSerializedProperty(field, true);
                     }
                 }
             }
-
-            serializedObject.ApplyModifiedProperties();
         }
 
         private void DrawAllFoldoutGroups()
         {
-            DrawSeparatorLine(Color.gray);
-
             foreach (var foldoutGroup in _foldoutGroupedFields)
             {
                 DrawFoldoutGroup(foldoutGroup);
@@ -264,9 +242,6 @@ namespace YoukaiFox.Inspector
 
         private void DrawReoderableLists()
         {
-            EditorGUILayout.Space();
-            DrawSeparatorLine(Color.gray);
-
             foreach (var list in _reorderableLists)
             {
                 list.DoLayoutList();
@@ -277,36 +252,28 @@ namespace YoukaiFox.Inspector
 
         private void DrawUngroupedFields()
         {
-            serializedObject.Update();
-            DrawSeparatorLine(Color.gray);
             bool skippedScriptField = false;
 
-            if (_groupLooseFields)
-                BeginGroup("Remaining fields");
-
-            foreach (var field in _ungroupedFields)
+            foreach (var propertyField in _ungroupedFields)
             {
-			    if ((!skippedScriptField) && (field.name.Equals("m_Script", System.StringComparison.Ordinal)))
+			    if ((!skippedScriptField) && (propertyField.name.Equals("m_Script", System.StringComparison.Ordinal)))
                 {
                     skippedScriptField = true;
                     continue;
                 }
 
-                if (_groupLooseFields)
-                {
-                    using (var scope = new EditorGUILayout.VerticalScope(EditorUtil.UngroupedFieldsStyle()))
-                    {
-                        EditorGUILayout.PropertyField(field);
-                    };
-                }
-                else
-                    EditorGUILayout.PropertyField(field);
+                DrawSerializedProperty(propertyField);
             }
 
-            if (_groupLooseFields)
-                EndGroup();
+            foreach (var field in _nonSerializedFields)
+            {
+                DrawNonSerializedProperty(serializedObject.targetObject, field);
+            }
 
-            serializedObject.ApplyModifiedProperties();
+            foreach (var prop in _nativeProperties)
+            {
+                DrawNonSerializedProperty(serializedObject.targetObject, prop);
+            }
         }
 
         private void DrawSeparatorLine(Color color)
@@ -323,24 +290,21 @@ namespace YoukaiFox.Inspector
 
         private void FindAttributes()
         {
-            // var temp = _reorderableListProperties.ToList();
-            // temp.Clear();
-            // _reorderableListProperties = temp;
-            // _serializedFields = target.
-            //     GetAllFields(f => f.GetCustomAttributes(typeof(SerializeField), true).Length > 0);
+            _nonSerializedFields = target.
+                GetAllFields(p => p.GetCustomAttributes(typeof(ShowNonSerializedFieldAttribute), true).Length > 0);
 
-            // _properties = target.
-            //     GetAllProperties(p => p.GetCustomAttributes(typeof(ShowPropertyAttribute), true).Length > 0);
+            _nativeProperties = target.
+                GetAllProperties(p => p.GetCustomAttributes(typeof(ShowPropertyAttribute), true).Length > 0);
 
             _methods = target.
                 GetAllMethods(m => m.GetCustomAttributes(typeof(ButtonAttribute), true).Length > 0);
 
             _methodsNoArguments = _methods.Where(m => m.GetParameters().Length == 0);
+
             _methodsWithArguments = _methods.Where(m => m.GetParameters().Length > 0);
 
             _groupFields = _serializedProperties
                 .Where(p => p.GetAttribute<GroupAttribute>() != null);
-                // .GroupBy(f => f.Name);
 
             _boxGroupedFields = _groupFields.GroupBy(f => f.GetAttribute<GroupAttribute>().Name);
 
@@ -371,12 +335,6 @@ namespace YoukaiFox.Inspector
 
         private List<SerializedProperty> FindSerializedProperties(List<SerializedProperty> properties)
         {
-            if (_serializedProperties == null)
-                _serializedProperties = new List<SerializedProperty>();
-                
-            // if (properties.Count == 0)
-                // return properties;
-                
             properties.Clear();
 
             try
@@ -425,6 +383,99 @@ namespace YoukaiFox.Inspector
             var item = list.GetArrayElementAtIndex(index);
             EditorGUI.PropertyField(rect, item);
             serializedObject.ApplyModifiedProperties();
+        }
+
+        private void DrawSerializedProperty(SerializedProperty property)
+        {
+            EditorGUILayout.PropertyField(property);
+        }
+
+        private void DrawSerializedProperty(SerializedProperty property, bool includeChildren)
+        {
+            EditorGUILayout.PropertyField(property, includeChildren);
+        }
+
+        private void DrawNonSerializedProperty(UnityEngine.Object targetObject, FieldInfo fieldInfo)
+        {
+            DrawDisabledProperty(fieldInfo.GetValue(targetObject), ObjectNames.NicifyVariableName(fieldInfo.Name));
+        }
+
+        private void DrawNonSerializedProperty(UnityEngine.Object targetObject, PropertyInfo propertyInfo)
+        {
+            DrawDisabledProperty(propertyInfo.GetValue(targetObject), ObjectNames.NicifyVariableName(propertyInfo.Name));
+        }
+
+        public static void DrawDisabledProperty(object value, string labelText)
+        {
+            using (new EditorGUI.DisabledScope(disabled: true))
+            {
+                Type valueType = value.GetType();
+
+                if (valueType == typeof(bool))
+                {
+                    EditorGUILayout.ToggleLeft(labelText, (bool) value);
+                }
+                else if (valueType == typeof(int))
+                {
+                    EditorGUILayout.IntField(labelText, (int) value);
+                }
+                else if (valueType == typeof(long))
+                {
+                    EditorGUILayout.LongField(labelText, (long) value);
+                }
+                else if (valueType == typeof(float))
+                {
+                    EditorGUILayout.FloatField(labelText, (float) value);
+                }
+                else if (valueType == typeof(double))
+                {
+                    EditorGUILayout.DoubleField(labelText, (double) value);
+                }
+                else if (valueType == typeof(string))
+                {
+                    EditorGUILayout.TextField(labelText, (string) value);
+                }
+                else if (valueType == typeof(Vector2))
+                {
+                    EditorGUILayout.Vector2Field(labelText, (Vector2) value);
+                }
+                else if (valueType == typeof(Vector3))
+                {
+                    EditorGUILayout.Vector3Field(labelText, (Vector3) value);
+                }
+                else if (valueType == typeof(Vector4))
+                {
+                    EditorGUILayout.Vector4Field(labelText, (Vector4) value);
+                }
+                else if (valueType == typeof(Color))
+                {
+                    EditorGUILayout.ColorField(labelText, (Color) value);
+                }
+                else if (valueType == typeof(Bounds))
+                {
+                    EditorGUILayout.BoundsField(labelText, (Bounds) value);
+                }
+                else if (valueType == typeof(Rect))
+                {
+                    EditorGUILayout.RectField(labelText, (Rect) value);
+                }
+                else if (typeof(UnityEngine.Object).IsAssignableFrom(valueType))
+                {
+                    EditorGUILayout.ObjectField(labelText, (UnityEngine.Object) value, valueType, true);
+                }
+                else if (valueType.BaseType == typeof(Enum))
+                {
+                    EditorGUILayout.EnumPopup(labelText, (Enum) value);
+                }
+                else if (valueType.BaseType == typeof(System.Reflection.TypeInfo))
+                {
+                    EditorGUILayout.TextField(labelText, value.ToString());
+                }
+                else
+                {
+                    Debug.LogError("Couldn't draw the property.");
+                }
+            }
         }
 
         private SerializedProperty GetCurrentReordableList()
