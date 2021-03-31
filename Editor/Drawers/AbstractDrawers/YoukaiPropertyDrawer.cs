@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using YoukaiFox.Inspector.Extensions;
+using System.Reflection;
 
 namespace YoukaiFox.Inspector
 {
@@ -55,5 +56,33 @@ namespace YoukaiFox.Inspector
             EditorGUI.LabelField(position, errorMessage);
             GUI.contentColor = contentColor;
         }
+
+		/// <summary>
+		/// Creates a dropdown
+		/// </summary>
+		/// <param name="rect">The rect the defines the position and size of the dropdown in the inspector</param>
+		/// <param name="serializedObject">The serialized object that is being updated</param>
+		/// <param name="target">The target object that contains the dropdown</param>
+		/// <param name="dropdownField">The field of the target object that holds the currently selected dropdown value</param>
+		/// <param name="label">The label of the dropdown</param>
+		/// <param name="selectedValueIndex">The index of the value from the values array</param>
+		/// <param name="values">The values of the dropdown</param>
+		/// <param name="displayOptions">The display options for the values</param>
+		protected void DrawDropdown(
+			Rect rect, SerializedObject serializedObject, object target, FieldInfo dropdownField,
+			string label, int selectedValueIndex, object[] values, string[] displayOptions)
+		{
+			EditorGUI.BeginChangeCheck();
+
+			int newIndex = EditorGUI.Popup(rect, label, selectedValueIndex, displayOptions);
+
+			if (EditorGUI.EndChangeCheck())
+			{
+				Undo.RecordObject(serializedObject.targetObject, "Dropdown");
+				// TODO: Problem with structs, because they are value type.
+				// The solution is to make boxing/unboxing but unfortunately I don't know the compile time type of the target object
+				dropdownField.SetValue(target, values[newIndex]);
+			}
+		}
     }
 }
