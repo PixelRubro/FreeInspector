@@ -21,7 +21,7 @@ namespace YoukaiFox.Inspector
         #region Static fields
         #endregion
 
-        #region Attributes references
+        #region Attribute info storing
 
         private IEnumerable<SerializedProperty> _groupFields;
         private IEnumerable<IGrouping<string, SerializedProperty>> _boxGroupedFields;
@@ -29,35 +29,32 @@ namespace YoukaiFox.Inspector
         private IEnumerable<SerializedProperty> _foldoutGroupFields;
         private IEnumerable<SerializedProperty> _reorderableListProperties;
         private IEnumerable<SerializedProperty> _ungroupedFields;
-        private List<InspectorField> _fields = new List<InspectorField>();
         private IEnumerable<FieldInfo> _nonSerializedFields;
         private IEnumerable<PropertyInfo> _nativeProperties;
         private IEnumerable<MethodInfo> _methods;
         private IEnumerable<MethodInfo> _methodsNoArguments;
         private IEnumerable<MethodInfo> _methodsWithArguments;
-
-        #endregion
-
         private List<SerializedProperty> _serializedProperties = new List<SerializedProperty>();
         private Dictionary<string, SavedBool> _foldoutStates = new Dictionary<string, SavedBool>();
         private HashSet<ReorderableList> _reorderableLists = new HashSet<ReorderableList>();
-        private int _reorderableListIndex;
-        private bool _drawSeparators = false;
-        private bool _drawFieldsInOrder = false;
-        private bool _drawLooseFieldsFirst = true;
+
+        #endregion
+
+        #region Settings
+
+        private bool _drawUngroupedFieldsFirst = true;
+
+        #endregion
 
         #endregion
         
+        #region Unity events
+
         private void OnEnable() 
         {
             _serializedProperties = new List<SerializedProperty>();
             _serializedProperties = FindSerializedProperties(_serializedProperties);
             FindAttributes();
-        }
-
-        private void OnDisable() 
-        {
-            _reorderableListIndex = 0;
         }
 
         public override void OnInspectorGUI() 
@@ -67,6 +64,10 @@ namespace YoukaiFox.Inspector
             DrawFields();
             serializedObject.ApplyModifiedProperties();
         }
+
+        #endregion
+
+        #region Drawing
 
         private void DrawScriptField()
         {
@@ -88,47 +89,9 @@ namespace YoukaiFox.Inspector
             DrawFieldsBySections();
         }
 
-        private void DrawFieldsInOrder()
-        {
-
-            // _drawnGroups.Clear();
-
-            // foreach (var p in _fields)
-            // {
-            //     if (p.Property.IsVisible())
-            //         continue;
-
-            //     switch (p.GroupingType)
-            //     {
-            //         case EGroupingType.None:
-            //             if (Event.current.type == EventType.Repaint)
-            //                 EditorGUILayout.PropertyField(p.Property);
-            //             break;
-            //         case EGroupingType.BoxGroup:
-            //             if (_drawnGroups.Contains(p.GroupingName))
-            //                 continue;
-
-            //             var group = GetBoxGroupWithName(p.GroupingName);
-            //             DrawGroup(group);
-            //             _drawnGroups.Add(p.GroupingName);
-            //             break;
-            //         case EGroupingType.Foldout:
-            //             if (_drawnGroups.Contains(p.GroupingName))
-            //                 continue;
-
-            //             var foldout = GetFoldoutGroupWithName(p.GroupingName);
-            //             DrawFoldoutGroup(foldout);
-            //             _drawnGroups.Add(p.GroupingName);
-            //             break;
-            //         default:
-            //             throw new System.ArgumentOutOfRangeException();
-            //     }
-            // }
-        }
-
         private void DrawFieldsBySections()
         {
-            if (_drawLooseFieldsFirst)
+            if (_drawUngroupedFieldsFirst)
                 DrawUngroupedFields();
 
             DrawReoderableLists();
@@ -136,17 +99,16 @@ namespace YoukaiFox.Inspector
             DrawAllFoldoutGroups();
             DrawButtons();
 
-            if (!_drawLooseFieldsFirst)
+            if (!_drawUngroupedFieldsFirst)
                 DrawUngroupedFields();
+
+            DrawNonSerializedProperties();
         }
 
         private void DrawButtons()
         {
             if (!_methods.Any())
                 return;
-
-            serializedObject.Update();
-            DrawSeparatorLine(Color.gray);
 
             foreach (var method in _methods)
             {
@@ -197,11 +159,10 @@ namespace YoukaiFox.Inspector
 
         private void DrawAllGroups()
         {
-            DrawSeparatorLine(Color.gray);
-
             foreach (var group in _boxGroupedFields)
             {
                 DrawGroup(group);
+                EditorGUILayout.Space();
             }
         }
 
@@ -246,8 +207,6 @@ namespace YoukaiFox.Inspector
             {
                 list.DoLayoutList();
             }
-
-            _reorderableListIndex = -1;
         }
 
         private void DrawUngroupedFields()
@@ -264,7 +223,10 @@ namespace YoukaiFox.Inspector
 
                 DrawSerializedProperty(propertyField);
             }
+        }
 
+        private void DrawNonSerializedProperties()
+        {
             foreach (var field in _nonSerializedFields)
             {
                 DrawNonSerializedProperty(serializedObject.targetObject, field);
@@ -278,95 +240,11 @@ namespace YoukaiFox.Inspector
 
         private void DrawSeparatorLine(Color color)
         {
-            if (!_drawSeparators)
-                return;
-
             var lineStyle = EditorUtil.HorizontalLineStyle();
             var guiColor = GUI.color;
             GUI.color = color;
             GUILayout.Box(GUIContent.none, lineStyle);
             GUI.color = guiColor;
-        }
-
-        private void FindAttributes()
-        {
-            _nonSerializedFields = target.
-                GetAllFields(p => p.GetCustomAttributes(typeof(ShowNonSerializedFieldAttribute), true).Length > 0);
-
-            _nativeProperties = target.
-                GetAllProperties(p => p.GetCustomAttributes(typeof(ShowPropertyAttribute), true).Length > 0);
-
-            _methods = target.
-                GetAllMethods(m => m.GetCustomAttributes(typeof(ButtonAttribute), true).Length > 0);
-
-            _methodsNoArguments = _methods.Where(m => m.GetParameters().Length == 0);
-
-            _methodsWithArguments = _methods.Where(m => m.GetParameters().Length > 0);
-
-            _groupFields = _serializedProperties
-                .Where(p => p.GetAttribute<GroupAttribute>() != null);
-
-            _boxGroupedFields = _groupFields.GroupBy(f => f.GetAttribute<GroupAttribute>().Name);
-
-            _foldoutGroupFields = _serializedProperties
-                .Where(p => p.GetAttribute<FoldoutAttribute>() != null);
-
-            _foldoutGroupedFields = _foldoutGroupFields.GroupBy(f => f.GetAttribute<FoldoutAttribute>().Name);
-
-            _reorderableListProperties = _serializedProperties
-                .Where(p => p.GetAttribute<ReorderableListAttribute>() != null);
-
-            foreach (var list in _reorderableListProperties)
-            {
-                var reorderableList = new ReorderableList(serializedObject, list, true, true, true, true)
-                    {
-                        drawHeaderCallback = DrawListHeader,
-                        drawElementCallback = DrawListElement
-                    };
-
-                _reorderableLists.Add(reorderableList);
-            }
-
-            _ungroupedFields = _serializedProperties
-                .Where(p => p.GetAttribute<GroupAttribute>() == null)
-                .Where(p => p.GetAttribute<FoldoutAttribute>() == null)
-                .Where(p => p.GetAttribute<ReorderableListAttribute>() == null);
-        }
-
-        private List<SerializedProperty> FindSerializedProperties(List<SerializedProperty> properties)
-        {
-            properties.Clear();
-
-            try
-            {
-                using (var iterator = serializedObject.GetIterator())
-                {
-                    if (iterator.NextVisible(true))
-                    {
-                        do
-                        {
-                            properties.Add(serializedObject.FindProperty(iterator.name));
-                        } while (iterator.NextVisible(false));
-                    }
-                }
-            }
-            catch (System.Exception e)
-            {
-                Debug.Log(e.Message);
-            }
-
-            return properties;
-        }
-
-        private void CollectPropertiesInfo()
-        {
-            for (int i = 0; i < _serializedProperties.Count; i++)
-            {
-                var order = i;
-                var groupingType = _serializedProperties[i].GetGroupingType(out string groupingName);
-                var field = new InspectorField(order, groupingType, groupingName, _serializedProperties[i]);
-                _fields.Add(field);
-            }
         }
 
         private void DrawListHeader(Rect rect) 
@@ -478,17 +356,104 @@ namespace YoukaiFox.Inspector
             }
         }
 
-        private SerializedProperty GetCurrentReordableList()
+        #endregion
+
+        #region Property info collection
+
+        private List<SerializedProperty> FindSerializedProperties(List<SerializedProperty> properties)
         {
-            var lists = _reorderableListProperties.ToArray();
+            properties.Clear();
 
-            if (lists.Length == 0)
-                return lists[0];
+            try
+            {
+                using (var iterator = serializedObject.GetIterator())
+                {
+                    if (iterator.NextVisible(true))
+                    {
+                        do
+                        {
+                            properties.Add(serializedObject.FindProperty(iterator.name));
+                        } while (iterator.NextVisible(false));
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.Log(e.Message);
+            }
 
-            // Debug.Log("Currently, only ONE reorderable list by inspector is allowed.");
-            return lists[0];
-            throw new System.NotImplementedException();
+            return properties;
         }
+
+        private void FindAttributes()
+        {
+            CollectUngroupedSerializedFieldsInfo();
+            CollectNonSerializedFieldInfo();
+            CollectMethodsInfo();
+            CollectGroupInfo();
+            CollectReorderableListInfo();
+        }
+
+        private void CollectUngroupedSerializedFieldsInfo()
+        {
+            _ungroupedFields = _serializedProperties
+                .Where(p => p.GetAttribute<GroupAttribute>() == null)
+                .Where(p => p.GetAttribute<FoldoutAttribute>() == null)
+                .Where(p => p.GetAttribute<ReorderableListAttribute>() == null);
+        }
+
+        private void CollectNonSerializedFieldInfo()
+        {
+            _nonSerializedFields = target.
+                GetAllFields(f => f.GetCustomAttributes(typeof(ShowNonSerializedFieldAttribute), true).Length > 0);
+
+            _nativeProperties = target.
+                GetAllProperties(p => p.GetCustomAttributes(typeof(ShowPropertyAttribute), true).Length > 0);
+        }
+
+        private void CollectMethodsInfo()
+        {
+            _methods = target.
+                GetAllMethods(m => m.GetCustomAttributes(typeof(ButtonAttribute), true).Length > 0);
+
+            _methodsNoArguments = _methods.Where(m => m.GetParameters().Length == 0);
+
+            _methodsWithArguments = _methods.Where(m => m.GetParameters().Length > 0);
+        }
+
+        private void CollectGroupInfo()
+        {
+            _groupFields = _serializedProperties
+                .Where(p => p.GetAttribute<GroupAttribute>() != null);
+
+            _boxGroupedFields = _groupFields.GroupBy(f => f.GetAttribute<GroupAttribute>().Name);
+
+            _foldoutGroupFields = _serializedProperties
+                .Where(p => p.GetAttribute<FoldoutAttribute>() != null);
+
+            _foldoutGroupedFields = _foldoutGroupFields.GroupBy(f => f.GetAttribute<FoldoutAttribute>().Name);
+        }
+
+        private void CollectReorderableListInfo()
+        {
+            _reorderableListProperties = _serializedProperties
+                .Where(p => p.GetAttribute<ReorderableListAttribute>() != null);
+
+            foreach (var list in _reorderableListProperties)
+            {
+                var reorderableList = new ReorderableList(serializedObject, list, true, true, true, true)
+                    {
+                        drawHeaderCallback = DrawListHeader,
+                        drawElementCallback = DrawListElement
+                    };
+
+                _reorderableLists.Add(reorderableList);
+            }
+        }
+
+        #endregion
+
+        #region Grouping auxiliar methods
 
         private IGrouping<string, SerializedProperty> GetBoxGroupWithName(string name)
         {
@@ -514,5 +479,23 @@ namespace YoukaiFox.Inspector
         {
             EditorGUILayout.EndVertical();
         }
+
+        #endregion
+
+        #region Reorderable list auxiliar methods
+        
+        private SerializedProperty GetCurrentReordableList()
+        {
+            var lists = _reorderableListProperties.ToArray();
+
+            if (lists.Length == 0)
+                return lists[0];
+
+            // Debug.Log("Currently, only ONE reorderable list by inspector is allowed.");
+            return lists[0];
+            throw new System.NotImplementedException();
+        }
+
+        #endregion
     }
 }

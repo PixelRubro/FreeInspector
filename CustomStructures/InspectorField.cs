@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,12 +10,20 @@ namespace YoukaiFox.Inspector.CustomStructures
         None, BoxGroup, Foldout
     }
 
+    public enum EPropertySerializingType
+    {
+        Serialized, NonSerializedField, NativeProperty
+    }
+
     public class InspectorField : IComparable<InspectorField>
     {
         public int Order;
         public EGroupingType GroupingType;
         public string GroupingName;
         public SerializedProperty Property;
+        public EPropertySerializingType PropertySerializingType;
+        public FieldInfo FieldInfo;
+        public PropertyInfo PropertyInfo;
 
         public InspectorField(int order, SerializedProperty property)
         {
@@ -22,6 +31,25 @@ namespace YoukaiFox.Inspector.CustomStructures
             GroupingType = EGroupingType.None;
             GroupingName = "none";
             Property = property;
+            PropertySerializingType = EPropertySerializingType.Serialized;
+        }
+
+        public InspectorField(int order, EGroupingType groupingType, string groupingName, FieldInfo fieldInfo)
+        {
+            Order = order;
+            GroupingType = groupingType;
+            GroupingName = "none";
+            FieldInfo = fieldInfo;
+            PropertySerializingType = EPropertySerializingType.NonSerializedField;
+        }
+
+        public InspectorField(int order, EGroupingType groupingType, string groupingName, PropertyInfo propertyInfo)
+        {
+            Order = order;
+            GroupingType = groupingType;
+            GroupingName = "none";
+            PropertyInfo = propertyInfo;
+            PropertySerializingType = EPropertySerializingType.NativeProperty;
         }
 
         public InspectorField(int order, EGroupingType groupingType, string groupingName, SerializedProperty property)
@@ -30,6 +58,7 @@ namespace YoukaiFox.Inspector.CustomStructures
             GroupingType = groupingType;
             GroupingName = groupingName;
             Property = property;
+            PropertySerializingType = EPropertySerializingType.Serialized;
         }
 
         public int CompareTo(InspectorField other)
