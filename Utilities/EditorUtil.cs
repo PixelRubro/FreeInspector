@@ -106,6 +106,13 @@ namespace YoukaiFox.Inspector.Utilities
 				return listType.GetElementType();
 			}
 		}
+
+        public static float GetRectIndentLength(Rect rect)
+        {
+            Rect indentRect = EditorGUI.IndentedRect(rect);
+            float indentLength = indentRect.x - rect.x;
+            return indentLength;
+        }
     }
 }
 #endif
