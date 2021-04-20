@@ -1,7 +1,6 @@
 #if UNITY_EDITOR
 using System;
 using UnityEditor;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace YoukaiFox.Inspector.Utilities
@@ -20,6 +19,14 @@ namespace YoukaiFox.Inspector.Utilities
             #endif
 
             return labelOffset;
+        }
+
+        public static GUIStyle GroupLabelStyle()
+        {
+            var style = EditorStyles.boldLabel;
+            style.alignment = TextAnchor.MiddleLeft;
+            style.fontSize = 12;
+            return style;
         }
 
         public static GUIStyle GroupLabelBackgroundStyle()
@@ -49,6 +56,7 @@ namespace YoukaiFox.Inspector.Utilities
 
             // style = new GUIStyle(GUI.skin.box);
             style.alignment = TextAnchor.MiddleLeft;
+            style.fontSize = 12;
             style.stretchHeight = true;
             return style;
         }
@@ -59,6 +67,8 @@ namespace YoukaiFox.Inspector.Utilities
             style.margin = new RectOffset(2, 2, 5, 5);
             style.fontStyle = FontStyle.Bold;
             style.stretchHeight = true;
+            style.alignment = TextAnchor.MiddleLeft;
+            style.fontSize = 12;
             return style;
         }
 
@@ -71,6 +81,8 @@ namespace YoukaiFox.Inspector.Utilities
 
             style.alignment = TextAnchor.MiddleLeft;
             style.stretchHeight = true;
+            style.alignment = TextAnchor.MiddleLeft;
+            style.fontSize = 12;
             return style;
         }
 

@@ -4,7 +4,8 @@ namespace YoukaiFox.Inspector
 {
     public enum EColor
     {
-        Clear, White, Black, Gray, Red, Pink, Orange, Yellow, Green, Blue, Indigo, Violet
+        Clear, White, Black, Gray, Red, Pink, Orange, Yellow, Green, Blue, Indigo, Violet,
+        DarkBlue, DarkGray, DarkGreen, DarkMagenta, DarkOrange, DarkRed, DarkSalmon, DarkViolet
     }
 
     public static class Colors 
@@ -182,10 +183,25 @@ namespace YoukaiFox.Inspector
                     return new Color32(75, 0, 130, 255);
                 case EColor.Violet:
                     return new Color32(128, 0, 255, 255);
+                case EColor.DarkBlue:
+                    return new Color32(0,0,139,255);
+                case EColor.DarkGray:
+                    return new Color32(169,169,169,255);
+                case EColor.DarkGreen:
+                    return new Color32(0,100,0,255);
+                case EColor.DarkMagenta:
+                    return new Color32(139,0,139,255);
+                case EColor.DarkOrange:
+                    return new Color32(255,140,0,255);
+                case EColor.DarkRed:
+                    return new Color32(233,150,122,255);
+                case EColor.DarkSalmon:
+                    return new Color32(233,150,122,255);
+                case EColor.DarkViolet:
+                    return new Color32(148,0,211,255);
                 default:
                     return new Color32(0, 0, 0, 255);
             }
         }
-
     }
 }

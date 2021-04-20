@@ -4,7 +4,6 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using YoukaiFox.UnityExtensions;
 using YoukaiFox.Inspector.Extensions;
 using YoukaiFox.Inspector.Utilities;
 using YoukaiFox.Inspector.CustomStructures;
@@ -37,6 +36,7 @@ namespace YoukaiFox.Inspector
         private List<SerializedProperty> _serializedProperties = new List<SerializedProperty>();
         private Dictionary<string, SavedBool> _foldoutStates = new Dictionary<string, SavedBool>();
         private HashSet<ReorderableList> _reorderableLists = new HashSet<ReorderableList>();
+        private SerializedProperty _stripHeader;
 
         #endregion
 
@@ -82,6 +82,34 @@ namespace YoukaiFox.Inspector
 
         #region Drawing
 
+        private void DrawStripHeader()
+        {
+            if (_stripHeader == null)
+                return;
+
+            var stripAttribute = _stripHeader.GetAttribute<StripHeaderAttribute>();
+            var rect = EditorGUILayout.GetControlRect();
+            EditorGUI.IndentedRect(rect);
+            rect.y += EditorGUIUtility.singleLineHeight / 3.0f;
+            rect.height = stripAttribute.Height;
+            EditorGUI.DrawRect(rect, stripAttribute.BackgroundColor);
+            var style = EditorStyles.boldLabel;
+            style.alignment = TextAnchor.MiddleCenter;
+            style.richText = true;
+            style.fontSize = stripAttribute.FontSize;
+            var contentColor = GUI.contentColor;
+            GUI.contentColor = stripAttribute.ForegroundColor;
+            EditorGUI.LabelField(rect, stripAttribute.Label, style);
+            GUI.contentColor = contentColor;
+
+            int spaces = stripAttribute.Height / 8 + 1;
+
+            for (int i = 0; i < spaces; i++)
+            {
+                EditorGUILayout.Space();
+            }
+        }
+
         private void DrawScriptField()
         {
             foreach (var field in _ungroupedFields)
@@ -98,6 +126,7 @@ namespace YoukaiFox.Inspector
 
         private void DrawFields()
         {
+            DrawStripHeader();
             DrawScriptField();
             DrawFieldsBySections();
         }
@@ -122,6 +151,8 @@ namespace YoukaiFox.Inspector
         {
             if (!_methods.Any())
                 return;
+
+            EditorGUILayout.Space();
 
             foreach (var method in _methods)
             {
@@ -452,6 +483,7 @@ namespace YoukaiFox.Inspector
 
         private void FindAttributes()
         {
+            SearchForStripHeader();
             CollectUngroupedSerializedFieldsInfo();
             CollectNonSerializedFieldInfo();
             CollectMethodsInfo();
@@ -459,11 +491,19 @@ namespace YoukaiFox.Inspector
             CollectReorderableListInfo();
         }
 
+        private void SearchForStripHeader()
+        {
+            _stripHeader = _serializedProperties
+            .Where(p => p.GetAttribute<StripHeaderAttribute>() != null)
+            .FirstOrDefault();
+        }
+
         private void CollectUngroupedSerializedFieldsInfo()
         {
             _ungroupedFields = _serializedProperties
                 .Where(p => p.GetAttribute<GroupAttribute>() == null)
                 .Where(p => p.GetAttribute<FoldoutAttribute>() == null)
+                .Where(p => p.GetAttribute<StripHeaderAttribute>() == null)
                 .Where(p => p.GetAttribute<ReorderableListAttribute>() == null);
         }
 
@@ -534,8 +574,7 @@ namespace YoukaiFox.Inspector
         private void BeginGroup(string groupName)
         {
             EditorGUILayout.BeginVertical(GUI.skin.box);
-            var labelStyle = EditorStyles.boldLabel;
-            // labelStyle.alignment = TextAnchor.MiddleCenter;
+            var labelStyle = EditorUtil.GroupLabelStyle();
 
             if (!string.IsNullOrEmpty(groupName))
                 EditorGUILayout.LabelField(groupName, labelStyle);
