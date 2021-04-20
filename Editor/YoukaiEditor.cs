@@ -42,7 +42,7 @@ namespace YoukaiFox.Inspector
 
         #region Settings
 
-        private bool _drawUngroupedFieldsFirst = true;
+        private bool _drawUngroupedFieldsFirst = false;
         private bool _foldNonSerializedFields = true;
 
         #endregion
@@ -110,12 +110,12 @@ namespace YoukaiFox.Inspector
             DrawReoderableLists();
             DrawAllGroups();
             DrawAllFoldoutGroups();
-            DrawButtons();
 
             if (!_drawUngroupedFieldsFirst)
                 DrawUngroupedFields();
 
             DrawNonSerializedProperties();
+            DrawButtons();
         }
 
         private void DrawButtons()
