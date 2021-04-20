@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace YoukaiFox.Inspector
 {
@@ -8,7 +6,7 @@ namespace YoukaiFox.Inspector
     public class IconAttribute : YoukaiAttribute
     {
         /// <summary>
-        /// Full path of the .png or .tiff file starting the "Assets" folder.
+        /// Full path of the .png or .tiff file starting from the "Assets" folder.
         /// </summary>
         public string IconPath = null;
 
