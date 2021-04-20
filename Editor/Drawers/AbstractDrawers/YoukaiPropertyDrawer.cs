@@ -39,18 +39,18 @@ namespace YoukaiFox.Inspector
         {
             var drawn = false;
             var labelAttribute = property.GetAttribute<LabelAttribute>();
+            var readonlyAttribute = property.GetAttribute<ReadOnlyAttribute>();
 
             if (labelAttribute != null)
-            {
                 label.text = labelAttribute.OverriddenLabel;
-            }
 
-            if (property.GetAttribute<ReadOnlyAttribute>() != null)
-            {
+            if (readonlyAttribute != null)
                 EditorGUI.BeginDisabledGroup(true);
-                DrawPropertySimple(position, property, label);
-                EditorGUI.EndDisabledGroup();
-                return;
+
+            if (property.GetAttribute<LeftToggleAttribute>() != null)
+            {
+                DrawFieldWithToggleOnTheLeft(position, property, label);
+                drawn = true;
             }
 
             if (property.GetAttribute<InputAttribute>() != null)
@@ -61,6 +61,9 @@ namespace YoukaiFox.Inspector
 
             if (!drawn)
                 DrawPropertySimple(position, property, label);
+
+            if (readonlyAttribute != null)
+                EditorGUI.EndDisabledGroup();
         }
 
         protected void DrawErrorMessage(Rect position, string errorMessage)
@@ -104,6 +107,25 @@ namespace YoukaiFox.Inspector
 				dropdownField.SetValue(target, values[newIndex]);
 			}
 		}
+
+        protected void DrawFieldWithToggleOnTheLeft(Rect position, SerializedProperty property, GUIContent label)
+        {
+            if (property.propertyType != SerializedPropertyType.Boolean)
+            {
+                var message = "ERROR! Not a boolean field.";
+                DrawErrorMessage(position, message);
+                return;
+            }
+
+            label = EditorGUI.BeginProperty(position, label, property);
+            EditorGUI.BeginChangeCheck();
+            var value = EditorGUI.ToggleLeft(position, label, property.boolValue);
+
+            if (EditorGUI.EndChangeCheck())
+                property.boolValue = value;
+
+            EditorGUI.EndProperty();
+        }
 
         protected void DrawInputField(Rect position, SerializedProperty property, GUIContent label)
         {
