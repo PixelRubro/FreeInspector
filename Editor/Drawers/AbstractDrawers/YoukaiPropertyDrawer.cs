@@ -37,6 +37,14 @@ namespace YoukaiFox.Inspector
 
         protected void DrawProperty(Rect position, SerializedProperty property, GUIContent label)
         {
+            var drawn = false;
+            var labelAttribute = property.GetAttribute<LabelAttribute>();
+
+            if (labelAttribute != null)
+            {
+                label.text = labelAttribute.OverriddenLabel;
+            }
+
             if (property.GetAttribute<ReadOnlyAttribute>() != null)
             {
                 EditorGUI.BeginDisabledGroup(true);
@@ -48,10 +56,11 @@ namespace YoukaiFox.Inspector
             if (property.GetAttribute<InputAttribute>() != null)
             {
                 DrawInputField(position, property, label);
-                return;
+                drawn = true;
             }
 
-            EditorGUI.PropertyField(position, property);
+            if (!drawn)
+                DrawPropertySimple(position, property, label);
         }
 
         protected void DrawErrorMessage(Rect position, string errorMessage)
@@ -69,6 +78,7 @@ namespace YoukaiFox.Inspector
             GUI.contentColor = contentColor;
         }
 
+        // Credits: https://github.com/dbrizov/NaughtyAttributes
 		/// <summary>
 		/// Creates a dropdown
 		/// </summary>
@@ -91,8 +101,6 @@ namespace YoukaiFox.Inspector
 			if (EditorGUI.EndChangeCheck())
 			{
 				Undo.RecordObject(serializedObject.targetObject, "Dropdown");
-				// TODO: Problem with structs, because they are value type.
-				// The solution is to make boxing/unboxing but unfortunately I don't know the compile time type of the target object
 				dropdownField.SetValue(target, values[newIndex]);
 			}
 		}
