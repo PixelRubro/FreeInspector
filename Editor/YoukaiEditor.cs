@@ -42,6 +42,7 @@ namespace YoukaiFox.Inspector
 
         #region Settings
 
+        private bool _drawScriptField = true;
         private bool _drawUngroupedFieldsFirst = false;
         private bool _foldNonSerializedFields = true;
 
@@ -112,6 +113,9 @@ namespace YoukaiFox.Inspector
 
         private void DrawScriptField()
         {
+            if (!_drawScriptField)
+                return;
+
             foreach (var field in _ungroupedFields)
             {
 			    if (field.name.Equals("m_Script", System.StringComparison.Ordinal))
