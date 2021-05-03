@@ -169,6 +169,11 @@ namespace YoukaiFox.Inspector
 
         private void DrawButton(ButtonAttribute buttonAttribute, MethodInfo method)
         {
+            var contentColor = GUI.contentColor;
+
+            if (buttonAttribute.Color != Color.clear)
+                GUI.contentColor = buttonAttribute.Color;
+
             var previousGuiStatus = GUI.enabled;
 
             if (buttonAttribute.ButtonMode == EButtonMode.AlwaysEnabled)
@@ -192,6 +197,7 @@ namespace YoukaiFox.Inspector
             
             method.Invoke(serializedObject.targetObject, arguments);
             GUI.enabled = previousGuiStatus;
+            GUI.contentColor = contentColor;
         }
 
         private void DrawGroup(IGrouping<string, SerializedProperty> group)
