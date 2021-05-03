@@ -21,14 +21,14 @@ namespace YoukaiFox.Inspector
             Value = null;
         }
 
-        // /// <summary>
-        // /// Highlight a field if <paramref name="targetPropertyName"/>'s value is true.
-        // /// </summary>
-        // public HighlightAttribute(EColor color, string targetPropertyName)
-        // {
-        //     Color = Colors.FromEColor(color);
-        //     TargetPropertyName = targetPropertyName;
-        // }
+        /// <summary>
+        /// Highlight a field if <paramref name="targetPropertyName"/>'s value is true.
+        /// </summary>
+        public HighlightAttribute(EColor color, string targetPropertyName)
+        {
+            Color = Colors.FromEColor(color);
+            TargetPropertyName = targetPropertyName;
+        }
 
         /// <summary>
         /// Highlight a field if a method with name <paramref name="validationMethodName"/>

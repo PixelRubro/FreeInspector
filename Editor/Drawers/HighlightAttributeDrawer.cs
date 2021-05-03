@@ -49,12 +49,20 @@ namespace YoukaiFox.Inspector
             }
 
             System.Object objectInstance = property.GetTargetObjectWithProperty();
-            var targetMethod = objectInstance.GetAllMethods(m => m.Name.Equals(highlightAttribute.ValidationMethodName))
+            var targetMethod = objectInstance.GetAllMethods(m => m.Name
+                .Equals(highlightAttribute.ValidationMethodName))
                 .FirstOrDefault();
 
             if (targetMethod == null)
             {
                 var message = "You can't use a null value when using method validation.";
+                DrawErrorMessage(position, message);
+                return;
+            }
+
+            if (targetMethod.GetParameters().Length == 0)
+            {
+                var message = "The selected method doesn't match the rule of a single boolean parameter.";
                 DrawErrorMessage(position, message);
                 return;
             }
@@ -85,8 +93,8 @@ namespace YoukaiFox.Inspector
                 return;
             }
 
-            Debug.LogError(memberValue);
-            Debug.LogError((bool) objectValue);
+            // Debug.LogError(memberValue);
+            // Debug.LogError((bool) objectValue);
 
             if (memberValue)
                 HighlightField(position, property, label);
