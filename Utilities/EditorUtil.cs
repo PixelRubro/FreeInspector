@@ -1,8 +1,11 @@
 #if UNITY_EDITOR
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using YoukaiFox.Inspector.Extensions;
 
 namespace YoukaiFox.Inspector.Utilities
 {
@@ -143,6 +146,135 @@ namespace YoukaiFox.Inspector.Utilities
             iconTexture.name = "HeaderIcon";
             iconTexture.Apply();
             return iconTexture;
+        }
+
+        public static bool IsButtonEnabled(UnityEngine.Object target, MethodInfo method)
+        {
+            var enableIfAttribute = Attribute.GetCustomAttribute(method, typeof(EnableIfAttribute)) as EnableIfAttribute;
+            var disableIfAttribute = Attribute.GetCustomAttribute(method, typeof(DisableIfAttribute)) as DisableIfAttribute;
+            
+            if ((enableIfAttribute == null) && (disableIfAttribute == null))
+                return true;
+
+            if (enableIfAttribute != null)
+            {
+                bool enablingCondition = true;
+
+                if (enableIfAttribute.TargetConditionValue != null)
+                {
+                    var hasCondition = enableIfAttribute.TargetConditionValue.ToBool(out bool conditionValue);
+                    enablingCondition = hasCondition ? conditionValue : true;
+                }
+
+                var fieldValue = (bool) target.GetField(enableIfAttribute.PropertyName).GetValue(target);
+
+                if (enablingCondition == fieldValue)
+                    return true;
+            }
+
+            if (disableIfAttribute != null)
+            {
+                bool disablingCondition = true;
+
+                if (disableIfAttribute.TargetConditionValue != null)
+                {
+                    var hasCondition = disableIfAttribute.TargetConditionValue.ToBool(out bool conditionValue);
+                    disablingCondition = hasCondition ? conditionValue : true;
+                }
+
+                var fieldValue = (bool) target.GetField(disableIfAttribute.PropertyName).GetValue(target);
+
+                if (disablingCondition != fieldValue)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static bool IsButtonVisible(UnityEngine.Object target, MethodInfo method)
+        {
+            var showIfAttribute = Attribute.GetCustomAttribute(method, typeof(ShowIfAttribute)) as ShowIfAttribute;
+            var hideIfAttribute = Attribute.GetCustomAttribute(method, typeof(HideIfAttribute)) as HideIfAttribute;
+
+            if ((showIfAttribute == null) && (hideIfAttribute == null))
+                return true;
+
+            if (showIfAttribute != null)
+            {
+                bool showingCondition = true;
+
+                if (showIfAttribute.TargetConditionValue != null)
+                {
+                    var hasCondition = showIfAttribute.TargetConditionValue.ToBool(out bool conditionValue);
+                    showingCondition = hasCondition ? conditionValue : true;
+                }
+
+                var fieldValue = (bool) target.GetField(showIfAttribute.PropertyName).GetValue(target);
+
+                if (showingCondition == fieldValue)
+                    return true;
+            }
+
+            if (hideIfAttribute != null)
+            {
+                bool hidingCondition = true;
+
+                if (hideIfAttribute.TargetConditionValue != null)
+                {
+                    var hasCondition = hideIfAttribute.TargetConditionValue.ToBool(out bool conditionValue);
+                    hidingCondition = hasCondition ? conditionValue : true;
+                }
+
+                var fieldValue = (bool) target.GetField(hideIfAttribute.PropertyName).GetValue(target);
+
+                if (hidingCondition != fieldValue)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static List<bool> GetConditionValues(object target, string[] conditions)
+        {
+            List<bool> conditionValues = new List<bool>();
+            foreach (var condition in conditions)
+            {
+                FieldInfo conditionField = target.GetField(condition);
+                if (conditionField != null &&
+                    conditionField.FieldType == typeof(bool))
+                {
+                    conditionValues.Add((bool)conditionField.GetValue(target));
+                }
+
+                PropertyInfo conditionProperty = target.GetProperty(condition);
+                if (conditionProperty != null &&
+                    conditionProperty.PropertyType == typeof(bool))
+                {
+                    conditionValues.Add((bool)conditionProperty.GetValue(target));
+                }
+
+                MethodInfo conditionMethod = target.GetMethod(condition);
+                if (conditionMethod != null &&
+                    conditionMethod.ReturnType == typeof(bool) &&
+                    conditionMethod.GetParameters().Length == 0)
+                {
+                    conditionValues.Add((bool)conditionMethod.Invoke(target, null));
+                }
+            }
+
+            return conditionValues;
+        }
+
+        public static bool GetConditionsFlag(List<bool> conditionValues)
+        {
+            bool flag = false;
+
+            foreach (var value in conditionValues)
+            {
+                flag = flag && value;
+            }
+
+            return flag;
         }
     }
 }

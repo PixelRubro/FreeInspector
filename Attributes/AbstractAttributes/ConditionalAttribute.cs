@@ -1,4 +1,3 @@
-using UnityEngine;
 using System;
 
 namespace YoukaiFox.Inspector
@@ -6,13 +5,13 @@ namespace YoukaiFox.Inspector
     /// <summary>
     /// Base class for comparison attributes.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public abstract class ConditionalAttribute : YoukaiAttribute
     {
         // public string[] PropertiesNames { get; private set; }
-        public string PropertyName { get; private set; }
+        public string PropertyName = null;
         // public ConditionOperator TargetCondition { get; private set; }
-        public System.Object TargetConditionValue { get; private set; }
+        public System.Object TargetConditionValue = null;
 
         // public enum ConditionOperator
         // {

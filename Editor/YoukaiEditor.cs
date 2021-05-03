@@ -168,19 +168,22 @@ namespace YoukaiFox.Inspector
 
         private void DrawButton(ButtonAttribute buttonAttribute, MethodInfo method)
         {
+            if (!EditorUtil.IsButtonVisible(serializedObject.targetObject, method))
+                return;
+
+            var conditionalAttribute = Attribute.GetCustomAttribute(method, typeof(ConditionalAttribute)) as ConditionalAttribute;
             var backupBgColor = GUI.backgroundColor;
 
             if (buttonAttribute.Color != Color.clear)
                 GUI.backgroundColor = buttonAttribute.Color;
 
             var previousGuiStatus = GUI.enabled;
+            GUI.enabled = HandleButtonMode(buttonAttribute.ButtonMode);
 
-            if (buttonAttribute.ButtonMode == EButtonMode.AlwaysEnabled)
+            if ((GUI.enabled) && (!EditorUtil.IsButtonEnabled(serializedObject.targetObject, method)))
+                GUI.enabled = false;
+            else if ((!GUI.enabled) && (EditorUtil.IsButtonEnabled(serializedObject.targetObject, method)))
                 GUI.enabled = true;
-            else if (buttonAttribute.ButtonMode == EButtonMode.EditorOnly)
-                GUI.enabled = !EditorApplication.isPlaying;
-            else
-                GUI.enabled = EditorApplication.isPlaying;
 
             var buttonName = String.IsNullOrEmpty(buttonAttribute.Label) ?
                 ObjectNames.NicifyVariableName(method.Name) :
@@ -196,7 +199,29 @@ namespace YoukaiFox.Inspector
 
             method.Invoke(serializedObject.targetObject, arguments);
             GUI.enabled = previousGuiStatus;
-            GUI.contentColor = backupBgColor;
+            GUI.backgroundColor = backupBgColor;
+        }
+        
+        private bool HandleButtonMode(EButtonMode buttonMode)
+        {
+            bool enableGui = true;
+
+            switch (buttonMode)
+            {
+                case EButtonMode.AlwaysEnabled:
+                    enableGui = true;
+                    break;
+                case EButtonMode.EditorOnly:
+                    enableGui = !EditorApplication.isPlaying;
+                    break;
+                case EButtonMode.PlayModeOnly:
+                    enableGui = EditorApplication.isPlaying;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return enableGui;
         }
 
         private void DrawGroup(IGrouping<string, SerializedProperty> group)
