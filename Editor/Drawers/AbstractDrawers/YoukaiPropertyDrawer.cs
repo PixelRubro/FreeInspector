@@ -4,6 +4,7 @@ using YoukaiFox.Inspector.Extensions;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace YoukaiFox.Inspector
 {
@@ -38,13 +39,9 @@ namespace YoukaiFox.Inspector
         protected void DrawProperty(Rect position, SerializedProperty property, GUIContent label)
         {
             var drawn = false;
-            var labelAttribute = property.GetAttribute<LabelAttribute>();
-            var readonlyAttribute = property.GetAttribute<ReadOnlyAttribute>();
+            label = CheckForLabelAttributes(property, label);
 
-            if (labelAttribute != null)
-                label.text = labelAttribute.OverriddenLabel;
-
-            if (readonlyAttribute != null)
+            if (HasDisablingAttribute(property))
                 EditorGUI.BeginDisabledGroup(true);
 
             if (property.GetAttribute<LeftToggleAttribute>() != null)
@@ -62,7 +59,7 @@ namespace YoukaiFox.Inspector
             if (!drawn)
                 DrawPropertySimple(position, property, label);
 
-            if (readonlyAttribute != null)
+            if (HasDisablingAttribute(property))
                 EditorGUI.EndDisabledGroup();
         }
 
@@ -168,9 +165,62 @@ namespace YoukaiFox.Inspector
                 property.stringValue = string.Empty;
         }
 
-        private void DrawPropertySimple(Rect position, SerializedProperty property, GUIContent label)
+        protected Texture2D FindIcon(string iconPath)
+        {
+            var path = Path.Combine(Application.dataPath, iconPath);
+            var image = File.ReadAllBytes(path);
+
+            if (image == null)
+                return null;
+
+            var iconTexture = new Texture2D(1, 1);
+            iconTexture.LoadImage(image);
+            iconTexture.name = "PrefabIcon";
+            iconTexture.Apply();
+            return iconTexture;
+        }
+
+        protected void DrawPropertySimple(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.PropertyField(position, property, label, property.isExpanded);
+        }
+
+        private bool HasDisablingAttribute(SerializedProperty property)
+        {
+            var readonlyAttribute = property.GetAttribute<ReadOnlyAttribute>();
+            var disablePlayModeAttribute = property.GetAttribute<DisableInPlayModeAttribute>();
+            var playmodeOnlyAttribute = property.GetAttribute<PlayModeOnlyAttribute>();
+
+            if (readonlyAttribute != null)
+                return true;
+
+            if ((disablePlayModeAttribute != null) && (Application.isPlaying))
+                return true;
+
+            if ((playmodeOnlyAttribute != null) && (!Application.isPlaying))
+                return true;
+
+            
+                
+            return false;
+        }
+
+        private GUIContent CheckForLabelAttributes(SerializedProperty property, GUIContent label)
+        {
+            var labelAttribute = property.GetAttribute<LabelAttribute>();
+
+            if (labelAttribute != null)
+                label.text = labelAttribute.OverriddenLabel;
+
+            var iconAttribute = property.GetAttribute<IconAttribute>();
+
+            if ((iconAttribute != null) && (!string.IsNullOrEmpty(iconAttribute.IconPath)))
+            {
+                var icon = FindIcon(iconAttribute.IconPath);
+                label.image = icon;
+            }
+
+            return label;
         }
     }
 }

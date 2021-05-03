@@ -31,7 +31,7 @@ namespace YoukaiFox.Inspector
                         break;
                     case PropertyDrawing.Disable:
                         GUI.enabled = false;
-                        EditorGUI.PropertyField(position, property);
+                        DrawProperty(position, property, label);
                         GUI.enabled = true;
                         break;
                     default:
@@ -49,7 +49,7 @@ namespace YoukaiFox.Inspector
                         break;
                     case PropertyDrawing.Enable:
                         GUI.enabled = false;
-                        EditorGUI.PropertyField(position, property);
+                        DrawProperty(position, property, label);
                         GUI.enabled = true;
                         break;
                     case PropertyDrawing.Disable:

@@ -13,11 +13,7 @@ namespace YoukaiFox.Inspector
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (Application.isPlaying) 
-                GUI.enabled = false;
-                
-            EditorGUI.PropertyField(position, property, label, true);
-            GUI.enabled = true;
+            DrawProperty(position, property, label);
         }
     }
 }
