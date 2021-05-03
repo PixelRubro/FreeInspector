@@ -38,6 +38,9 @@ namespace YoukaiFox.Inspector
 
         protected void DrawProperty(Rect position, SerializedProperty property, GUIContent label)
         {
+            if (IsHidden(property))
+                return;
+
             var drawn = false;
             label = CheckForLabelAttributes(property, label);
 
@@ -56,7 +59,7 @@ namespace YoukaiFox.Inspector
                 drawn = true;
             }
 
-            if (!drawn)
+            if ((!drawn))
                 DrawPropertySimple(position, property, label);
 
             if (HasDisablingAttribute(property))
@@ -188,20 +191,35 @@ namespace YoukaiFox.Inspector
         private bool HasDisablingAttribute(SerializedProperty property)
         {
             var readonlyAttribute = property.GetAttribute<ReadOnlyAttribute>();
-            var disablePlayModeAttribute = property.GetAttribute<DisableInPlayModeAttribute>();
-            var playmodeOnlyAttribute = property.GetAttribute<PlayModeOnlyAttribute>();
 
             if (readonlyAttribute != null)
                 return true;
 
+            var disablePlayModeAttribute = property.GetAttribute<DisableInPlayModeAttribute>();
+
             if ((disablePlayModeAttribute != null) && (Application.isPlaying))
                 return true;
+                
+            var playmodeOnlyAttribute = property.GetAttribute<PlayModeOnlyAttribute>();
 
             if ((playmodeOnlyAttribute != null) && (!Application.isPlaying))
                 return true;
-
-            
                 
+            return false;
+        }
+
+        private bool IsHidden(SerializedProperty property)
+        {
+            var showInPlayModeAttribute = property.GetAttribute<ShowInPlayModeAttribute>();
+
+            if ((showInPlayModeAttribute != null) && (!Application.isPlaying))
+                return true;
+
+            var hideInPlayModeAttribute = property.GetAttribute<HideInPlayModeAttribute>();
+
+            if ((hideInPlayModeAttribute != null) && (Application.isPlaying))
+                return true;
+
             return false;
         }
 

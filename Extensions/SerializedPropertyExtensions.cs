@@ -216,21 +216,26 @@ namespace YoukaiFox.Inspector.Extensions
 		{
 			var showIfAttribute = self.GetAttribute<ShowIfAttribute>();
             var hideIfAttribute = self.GetAttribute<HideIfAttribute>();
+            var showPlayModeAttribute = self.GetAttribute<ShowInPlayModeAttribute>();
+            var hidePlayModeAttribute = self.GetAttribute<HideInPlayModeAttribute>();
 
-			if ((showIfAttribute == null) && (hideIfAttribute == null))
+			if ((showIfAttribute == null) && (hideIfAttribute == null) &&
+                (showPlayModeAttribute == null) && (hidePlayModeAttribute == null))
 				return true;
 
             var targetObject = self.GetTargetObjectWithProperty();
 
             if (showIfAttribute != null)
-            {
                 return targetObject.GetConditionValue(showIfAttribute.PropertyName);
-            }
 
             if (hideIfAttribute != null)
-            {
                 return targetObject.GetConditionValue(hideIfAttribute.PropertyName);
-            }
+
+            if ((showPlayModeAttribute != null) && (!Application.isPlaying))
+                return false;
+
+            if ((hidePlayModeAttribute != null) && (Application.isPlaying))
+                return false;
             
             return true;
 		}
