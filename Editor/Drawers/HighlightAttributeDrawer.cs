@@ -73,7 +73,7 @@ namespace YoukaiFox.Inspector
             if (highlight)
                 HighlightField(position, property, label);
             else
-                EditorGUI.PropertyField(position, property, label);
+                DrawProperty(position, property, label);
         }
 
         private void HighlightUsingProperty(Rect position, SerializedProperty property, GUIContent label)
@@ -93,13 +93,10 @@ namespace YoukaiFox.Inspector
                 return;
             }
 
-            // Debug.LogError(memberValue);
-            // Debug.LogError((bool) objectValue);
-
             if (memberValue)
                 HighlightField(position, property, label);
             else
-                EditorGUI.PropertyField(position, property, label);
+                DrawProperty(position, property, label);
         }
 
         private void HighlightField(Rect position, SerializedProperty property, GUIContent label)
@@ -115,7 +112,7 @@ namespace YoukaiFox.Inspector
             var contentColor = GUI.contentColor;
             GUI.contentColor = Color.black;
 
-            EditorGUI.PropertyField(position, property, label);
+            DrawProperty(position, property, label);
             GUI.contentColor = contentColor;
         }
     }
