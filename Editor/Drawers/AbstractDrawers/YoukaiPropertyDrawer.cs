@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System;
 
 namespace YoukaiFox.Inspector
 {
@@ -56,6 +57,12 @@ namespace YoukaiFox.Inspector
             if (property.GetAttribute<InputAttribute>() != null)
             {
                 DrawInputField(position, property, label);
+                drawn = true;
+            }
+
+            if (property.GetAttribute<EnumFlagsAttribute>() != null)
+            {
+                DrawEnumFlagsField(position, property, label);
                 drawn = true;
             }
 
@@ -186,6 +193,24 @@ namespace YoukaiFox.Inspector
         protected void DrawPropertySimple(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.PropertyField(position, property, label, property.isExpanded);
+        }
+
+        protected void DrawEnumFlagsField(Rect position, SerializedProperty property, GUIContent label)
+        {
+            Enum targetEnum = property.GetTargetObjectOfProperty() as Enum;
+
+            if (targetEnum == null)
+            {
+                var message = "ERROR! EnumFlags attribute can only be used on enums.";
+                DrawErrorMessage(position, message);
+                return;
+            }
+
+            EditorGUI.BeginProperty(position, label, property);
+            Enum updatedEnum = EditorGUI.EnumFlagsField(position, label.text, targetEnum);
+            property.intValue = (int) Convert.ChangeType(updatedEnum, targetEnum.GetType());
+            EditorGUI.EndProperty();
+            property.serializedObject.ApplyModifiedProperties();
         }
 
         private bool HasDisablingAttribute(SerializedProperty property)
