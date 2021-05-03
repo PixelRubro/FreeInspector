@@ -8,6 +8,7 @@ using YoukaiFox.Inspector.Extensions;
 using YoukaiFox.Inspector.Utilities;
 using YoukaiFox.Inspector.CustomStructures;
 using UnityEditorInternal;
+using System.IO;
 
 namespace YoukaiFox.Inspector
 {
@@ -94,14 +95,12 @@ namespace YoukaiFox.Inspector
             rect.y += EditorGUIUtility.singleLineHeight / 3.0f;
             rect.height = stripAttribute.Height;
             EditorGUI.DrawRect(rect, stripAttribute.BackgroundColor);
-            var style = EditorStyles.boldLabel;
-            style.alignment = TextAnchor.MiddleCenter;
-            style.richText = true;
-            style.fontSize = stripAttribute.FontSize;
-            var contentColor = GUI.contentColor;
-            GUI.contentColor = stripAttribute.ForegroundColor;
-            EditorGUI.LabelField(rect, stripAttribute.Label, style);
-            GUI.contentColor = contentColor;
+
+            var style = EditorUtil.StripHeaderStyle(stripAttribute);
+            var label = new GUIContent();
+            label.text = $"   {stripAttribute.Label}";
+            label.image = EditorUtil.FindIcon(stripAttribute.IconPath);
+            EditorGUI.LabelField(rect, label, style);
 
             int spaces = stripAttribute.Height / 8 + 1;
 

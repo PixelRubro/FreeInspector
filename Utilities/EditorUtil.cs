@@ -1,5 +1,6 @@
 #if UNITY_EDITOR
 using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -26,6 +27,7 @@ namespace YoukaiFox.Inspector.Utilities
             var style = EditorStyles.boldLabel;
             style.alignment = TextAnchor.MiddleLeft;
             style.fontSize = 12;
+            style.normal.textColor = Color.white;
             return style;
         }
 
@@ -37,6 +39,7 @@ namespace YoukaiFox.Inspector.Utilities
                 style = new GUIStyle(EditorStyles.helpBox);
             #endif
 
+            style.normal.textColor = Color.white;
             return style;
         }
 
@@ -69,6 +72,7 @@ namespace YoukaiFox.Inspector.Utilities
             style.stretchHeight = true;
             style.alignment = TextAnchor.MiddleLeft;
             style.fontSize = 12;
+            style.normal.textColor = Color.white;
             return style;
         }
 
@@ -95,6 +99,18 @@ namespace YoukaiFox.Inspector.Utilities
             return lineStyle;
         }
 
+        public static GUIStyle StripHeaderStyle(StripHeaderAttribute attribute)
+        {
+            var style = EditorStyles.boldLabel;
+            style.alignment = TextAnchor.MiddleLeft;
+            style.padding = new RectOffset(3, 3, 3, 3);
+            style.richText = true;
+            style.fontSize = attribute.FontSize;
+            style.normal.textColor = attribute.FontColor;
+            style.imagePosition = ImagePosition.ImageLeft;
+            return style;
+        }
+
 		public static Type GetListElementType(Type listType)
 		{
 			if (listType.IsGenericType)
@@ -112,6 +128,21 @@ namespace YoukaiFox.Inspector.Utilities
             Rect indentRect = EditorGUI.IndentedRect(rect);
             float indentLength = indentRect.x - rect.x;
             return indentLength;
+        }
+
+        public static Texture2D FindIcon(string iconPath)
+        {
+            var path = Path.Combine(Application.dataPath, iconPath);
+            var image = File.ReadAllBytes(path);
+
+            if (image == null)
+                return null;
+
+            var iconTexture = new Texture2D(1, 1);
+            iconTexture.LoadImage(image);
+            iconTexture.name = "HeaderIcon";
+            iconTexture.Apply();
+            return iconTexture;
         }
     }
 }
