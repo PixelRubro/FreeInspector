@@ -8,9 +8,7 @@ namespace YoukaiFox.Inspector
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            var labelAttribute = attribute as LabelAttribute;
-            label.text = labelAttribute.OverriddenLabel;
-            EditorGUI.PropertyField(position, property, label);
+            DrawProperty(position, property, label);
         }
     }
 }
