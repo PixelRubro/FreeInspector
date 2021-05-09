@@ -66,6 +66,12 @@ namespace YoukaiFox.Inspector
                 drawn = true;
             }
 
+            if (property.GetAttribute<NotNullAttribute>() != null)
+            {
+                DrawNotNullField(position, property, label);
+                drawn = true;
+            }
+
             if ((!drawn))
                 DrawPropertySimple(position, property, label);
 
@@ -211,6 +217,19 @@ namespace YoukaiFox.Inspector
             property.intValue = (int) Convert.ChangeType(updatedEnum, targetEnum.GetType());
             EditorGUI.EndProperty();
             property.serializedObject.ApplyModifiedProperties();
+        }
+
+        protected void DrawNotNullField(Rect position, SerializedProperty property, GUIContent label)
+        {
+            DrawPropertySimple(position, property, label);
+            
+            if (property.propertyType != SerializedPropertyType.ObjectReference)
+                return;
+
+            if (property.objectReferenceValue != null)
+                return;
+
+            EditorGUILayout.HelpBox($"The value of the field \"{label.text}\" cannot be null.", MessageType.Error);
         }
 
         private bool HasDisablingAttribute(SerializedProperty property)
