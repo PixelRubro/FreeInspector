@@ -99,7 +99,10 @@ namespace YoukaiFox.Inspector
             var style = EditorUtil.StripHeaderStyle(stripAttribute);
             var label = new GUIContent();
             label.text = $"   {stripAttribute.Label}";
-            label.image = EditorUtil.FindIcon(stripAttribute.IconPath);
+            
+            if (!string.IsNullOrEmpty(stripAttribute.IconPath))
+                label.image = EditorUtil.FindIcon(stripAttribute.IconPath);
+                
             EditorGUI.LabelField(rect, label, style);
 
             int spaces = stripAttribute.Height / 8 + 1;
