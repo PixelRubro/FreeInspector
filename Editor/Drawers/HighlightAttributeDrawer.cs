@@ -108,10 +108,8 @@ namespace YoukaiFox.Inspector
                 position.width + (padding * 2), position.height + (padding * 2));
 
             EditorGUI.DrawRect(highlightRect, highlightAttribute.Color);
-
             var contentColor = GUI.contentColor;
-            GUI.contentColor = Color.black;
-
+            GUI.contentColor = Color.white;
             DrawProperty(position, property, label);
             GUI.contentColor = contentColor;
         }
