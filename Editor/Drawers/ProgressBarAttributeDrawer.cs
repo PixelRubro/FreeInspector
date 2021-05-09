@@ -20,16 +20,13 @@ namespace YoukaiFox.Inspector
             if (progressAttribute == null)
                 return;
 
-            if (property.propertyType != SerializedPropertyType.Float)
-                return;
-
             if ((progressAttribute.HideWhenZero) && (property.floatValue <= 0))
                 return;
 
             var dynamicLabel = property.serializedObject.FindProperty(progressAttribute.Label);
             var barText = dynamicLabel == null ? property.name : dynamicLabel.stringValue;
             barText = ObjectNames.NicifyVariableName(barText);
-            var progressValue = property.floatValue/1f;
+            var progressValue = property.floatValue / 1f;
             EditorGUI.ProgressBar(position, progressValue, barText);
         }
 

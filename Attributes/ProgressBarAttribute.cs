@@ -1,11 +1,11 @@
 using System;
-using UnityEngine;
 
 namespace YoukaiFox.Inspector
 {
     [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = true)]
     /// <summary>
-    /// Draw a progress bar for a serialized float field in the inspector.
+    /// Draw a progress bar for a serialized float field in the inspector which
+    /// goes from 0 to 1.
     /// </summary>
     public sealed class ProgressBarAttribute : YoukaiAttribute
     {
