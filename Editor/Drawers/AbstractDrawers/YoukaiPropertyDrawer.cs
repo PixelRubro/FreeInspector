@@ -39,44 +39,34 @@ namespace YoukaiFox.Inspector
 
         protected void DrawProperty(Rect position, SerializedProperty property, GUIContent label)
         {
+            // Property is hidden, no need to draw.
             if (IsHidden(property))
                 return;
 
-            var drawn = false;
-            label = CheckForLabelAttributes(property, label);
+            // If has Label and/or Icon attributes, return label value with them added in.
+            label = AddLabelAttributes(property, label);
 
+            // Disable property if it should.
             if (HasDisablingAttribute(property))
                 EditorGUI.BeginDisabledGroup(true);
 
+            // Check for special cases for drawing, if none are met, draw field as simple as possible.
             if (property.GetAttribute<LeftToggleAttribute>() != null)
-            {
                 DrawFieldWithToggleOnTheLeft(position, property, label);
-                drawn = true;
-            }
-
-            if (property.GetAttribute<InputAttribute>() != null)
-            {
+            else if (property.GetAttribute<InputAttribute>() != null)
                 DrawInputField(position, property, label);
-                drawn = true;
-            }
-
-            if (property.GetAttribute<EnumFlagsAttribute>() != null)
-            {
+            else if (property.GetAttribute<EnumFlagsAttribute>() != null)
                 DrawEnumFlagsField(position, property, label);
-                drawn = true;
-            }
-
-            if (property.GetAttribute<NotNullAttribute>() != null)
-            {
-                DrawNotNullField(position, property, label);
-                drawn = true;
-            }
-
-            if ((!drawn))
+            else
                 DrawPropertySimple(position, property, label);
 
+            // Restore GUI status if field was disabled.
             if (HasDisablingAttribute(property))
                 EditorGUI.EndDisabledGroup();
+
+            // Add a helpbox if a field can't be null, but it is.
+            if (property.GetAttribute<NotNullAttribute>() != null)
+                ShowNullFieldWarning(property, label.text);
         }
 
         protected void DrawErrorMessage(Rect position, string errorMessage)
@@ -219,17 +209,15 @@ namespace YoukaiFox.Inspector
             property.serializedObject.ApplyModifiedProperties();
         }
 
-        protected void DrawNotNullField(Rect position, SerializedProperty property, GUIContent label)
+        protected void ShowNullFieldWarning(SerializedProperty property, string fieldName)
         {
-            DrawPropertySimple(position, property, label);
-            
             if (property.propertyType != SerializedPropertyType.ObjectReference)
                 return;
 
             if (property.objectReferenceValue != null)
                 return;
 
-            EditorGUILayout.HelpBox($"The value of the field \"{label.text}\" cannot be null.", MessageType.Error);
+            EditorGUILayout.HelpBox($"The value of the field \"{fieldName}\" cannot be null.", MessageType.Error);
         }
 
         private bool HasDisablingAttribute(SerializedProperty property)
@@ -267,7 +255,7 @@ namespace YoukaiFox.Inspector
             return false;
         }
 
-        private GUIContent CheckForLabelAttributes(SerializedProperty property, GUIContent label)
+        private GUIContent AddLabelAttributes(SerializedProperty property, GUIContent label)
         {
             var labelAttribute = property.GetAttribute<LabelAttribute>();
 
