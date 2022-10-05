@@ -1,2 +1,1 @@
-# YoukaiInspector
-An asset to increase the customization in Unity's inspector.
+DEVELOPMENT IN PROGRESS!
