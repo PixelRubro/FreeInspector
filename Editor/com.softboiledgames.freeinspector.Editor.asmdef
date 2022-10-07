@@ -1,0 +1,15 @@
+{
+    "name": "com.softboiledgames.freeinspector.Editor",
+    "references": [
+        "GUID:f7871fe198face548acb755bd721b9a5"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

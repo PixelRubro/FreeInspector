@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace YoukaiFox.Inspector
+namespace SoftBoiledGames.Inspector
 {
     [CustomPropertyDrawer(typeof(HideHelpBoxIfAttribute))]
     public class HideHelpBoxIfAttributeDrawer : ConditionalHelpAttributeDrawer

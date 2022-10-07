@@ -1,13 +1,13 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using System.Reflection;
-using YoukaiFox.Inspector.Extensions;
+using SoftBoiledGames.Inspector.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace YoukaiFox.Inspector
+namespace SoftBoiledGames.Inspector
 {
-    public abstract class ConditionalHelpAttributeDrawer : YoukaiPropertyDrawer
+    public abstract class ConditionalHelpAttributeDrawer : BasePropertyDrawer
     {
         public const int MessageTextPadding = 44;
         public const int InspectorMargin = 4;

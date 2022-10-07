@@ -3,10 +3,10 @@ using UnityEditor;
 using System.IO;
 using System.Linq;
 
-namespace YoukaiFox.Inspector
+namespace SoftBoiledGames.Inspector
 {
     [CustomPropertyDrawer(typeof(PrefabAttribute))]
-    public class PrefabAttributeDrawer : YoukaiPropertyDrawer 
+    public class PrefabAttributeDrawer : BasePropertyDrawer 
     {
         private Texture2D _prefabTexture;
         private string _graphicsPath;

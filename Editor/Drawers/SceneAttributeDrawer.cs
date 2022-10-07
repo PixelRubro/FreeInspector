@@ -5,10 +5,10 @@ using UnityEditor;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace YoukaiFox.Inspector
+namespace SoftBoiledGames.Inspector
 {
     [CustomPropertyDrawer(typeof(SceneAttribute))]
-    public class SceneAttributeDrawer : YoukaiPropertyDrawer
+    public class SceneAttributeDrawer : BasePropertyDrawer
     {
         public override void OnGUI (Rect position, SerializedProperty property, GUIContent label) {
 

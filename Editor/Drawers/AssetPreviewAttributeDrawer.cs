@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEditor;
-using YoukaiFox.Inspector.Utilities;
+using SoftBoiledGames.Inspector.Utilities;
 
-namespace YoukaiFox.Inspector
+namespace SoftBoiledGames.Inspector
 {
     [CustomPropertyDrawer(typeof(AssetPreviewAttribute))]
-    public class AssetPreviewAttributeDrawer : YoukaiPropertyDrawer
+    public class AssetPreviewAttributeDrawer : BasePropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

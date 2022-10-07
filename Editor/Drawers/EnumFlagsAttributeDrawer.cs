@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace YoukaiFox.Inspector
+namespace SoftBoiledGames.Inspector
 {
     [CustomPropertyDrawer(typeof(EnumFlagsAttribute))]
-    public class EnumFlagsAttributeDrawer : YoukaiPropertyDrawer
+    public class EnumFlagsAttributeDrawer : BasePropertyDrawer
     {
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

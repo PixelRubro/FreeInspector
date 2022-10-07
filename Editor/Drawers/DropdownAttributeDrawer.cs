@@ -3,13 +3,13 @@ using UnityEditor;
 using System;
 using System.Collections;
 using System.Reflection;
-using YoukaiFox.Inspector.Extensions;
+using SoftBoiledGames.Inspector.Extensions;
 using System.Collections.Generic;
 
-namespace YoukaiFox.Inspector
+namespace SoftBoiledGames.Inspector
 {
     [CustomPropertyDrawer(typeof(DropdownAttribute))]
-    public class DropdownAttributeDrawer : YoukaiPropertyDrawer
+    public class DropdownAttributeDrawer : BasePropertyDrawer
     {
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {

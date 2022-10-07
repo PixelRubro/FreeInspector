@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace YoukaiFox.Inspector
+namespace SoftBoiledGames.Inspector
 {
     [CustomPropertyDrawer(typeof(HideIfAttribute))]
     public class HideIfAttributeDrawer : ConditionalAttributeDrawer

@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace YoukaiFox.Inspector
+namespace SoftBoiledGames.Inspector
 {
     [CustomPropertyDrawer(typeof(InputAttribute))]
-    public class InputAttributeDrawer : YoukaiPropertyDrawer 
+    public class InputAttributeDrawer : BasePropertyDrawer 
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) 
         {

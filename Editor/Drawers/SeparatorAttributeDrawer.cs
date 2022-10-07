@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace YoukaiFox.Inspector
+namespace SoftBoiledGames.Inspector
 {
     [CustomPropertyDrawer(typeof(SeparatorAttribute))]
-    public class SeparatorAttributeDrawer : YoukaiDecoratorDrawer 
+    public class SeparatorAttributeDrawer : BaseDecoratorDrawer 
     {
         public override float GetHeight()
         {

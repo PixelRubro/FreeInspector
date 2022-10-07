@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace YoukaiFox.Inspector
+namespace SoftBoiledGames.Inspector
 {
     [CustomPropertyDrawer(typeof(ProgressBarAttribute))]
-    public class ProgressBarAttributeDrawer: YoukaiPropertyDrawer 
+    public class ProgressBarAttributeDrawer: BasePropertyDrawer 
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) 
         {
@@ -26,7 +26,7 @@ namespace YoukaiFox.Inspector
             var dynamicLabel = property.serializedObject.FindProperty(progressAttribute.Label);
             var barText = dynamicLabel == null ? property.name : dynamicLabel.stringValue;
             barText = ObjectNames.NicifyVariableName(barText);
-            var progressValue = property.floatValue / 1f;
+            var progressValue = property.floatValue;
             EditorGUI.ProgressBar(position, progressValue, barText);
         }
 

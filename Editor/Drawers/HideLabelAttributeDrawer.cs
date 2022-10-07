@@ -1,10 +1,10 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace YoukaiFox.Inspector
+namespace SoftBoiledGames.Inspector
 {
     [CustomPropertyDrawer(typeof(HideLabelAttribute))]
-    public class HideLabelAttributeDrawer : YoukaiPropertyDrawer
+    public class HideLabelAttributeDrawer : BasePropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

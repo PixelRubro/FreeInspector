@@ -1,11 +1,11 @@
 using UnityEditor;
 using UnityEngine;
 using System.Reflection;
-using YoukaiFox.Inspector.Extensions;
+using SoftBoiledGames.Inspector.Extensions;
 
-namespace YoukaiFox.Inspector
+namespace SoftBoiledGames.Inspector
 {
-    public abstract class ConditionalAttributeDrawer : YoukaiPropertyDrawer
+    public abstract class ConditionalAttributeDrawer : BasePropertyDrawer
     {
         public enum PropertyDrawing
         {
@@ -84,6 +84,12 @@ namespace YoukaiFox.Inspector
         {
             System.Object objectInstance = property.GetTargetObjectWithProperty();
             var comparisonAttribute = attribute as ConditionalAttribute;
+
+            if ((comparisonAttribute.PropertyName.Equals("true")) || (comparisonAttribute.PropertyName.Equals("false")))
+            {
+                return comparisonAttribute.PropertyName.Equals("true");
+            }
+
             FieldInfo field = objectInstance.GetField(comparisonAttribute.PropertyName);
             PropertyInfo nonSerializedMember = objectInstance.GetProperty(comparisonAttribute.PropertyName);
 

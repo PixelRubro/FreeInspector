@@ -1,10 +1,10 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace YoukaiFox.Inspector
+namespace SoftBoiledGames.Inspector
 {
     [CustomPropertyDrawer(typeof(HelpBoxAttribute))]
-    public class HelpBoxAttributeDrawer : YoukaiDecoratorDrawer
+    public class HelpBoxAttributeDrawer : BaseDecoratorDrawer
     {
         private const int MessageTextPadding = 40;
         private const int InspectorMargin = 4;

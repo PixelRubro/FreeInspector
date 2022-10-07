@@ -1,13 +1,13 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using YoukaiFox.Inspector.Extensions;
+using SoftBoiledGames.Inspector.Extensions;
 using System.Linq;
 using System.Reflection;
 
-namespace YoukaiFox.Inspector
+namespace SoftBoiledGames.Inspector
 {
     [CustomPropertyDrawer(typeof(HighlightAttribute))]
-    public class HighlightAttributeDrawer : YoukaiPropertyDrawer
+    public class HighlightAttributeDrawer : BasePropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

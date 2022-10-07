@@ -3,10 +3,10 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace YoukaiFox.Inspector
+namespace SoftBoiledGames.Inspector
 {
     [CustomPropertyDrawer(typeof(IconAttribute))]
-    public class IconAttributeDrawer : YoukaiPropertyDrawer
+    public class IconAttributeDrawer : BasePropertyDrawer
     {
         private Texture2D _iconTexture;
 

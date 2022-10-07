@@ -1,19 +1,21 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace YoukaiFox.Inspector
+namespace SoftBoiledGames.Inspector
 {
     [CustomPropertyDrawer(typeof(DisableInPlayModeAttribute))]
-    public class DisableInPlayModeAttributeDrawer : YoukaiPropertyDrawer
+    public class DisableInPlayModeAttributeDrawer : ConditionalAttributeDrawer
     {
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             return EditorGUI.GetPropertyHeight(property, label, true);
         }
 
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        protected override PropertyDrawing GetPropertyDrawing()
         {
-            DrawProperty(position, property, label);
+            return EditorApplication.isPlaying
+                ? PropertyDrawing.Disable
+                : PropertyDrawing.Enable;
         }
     }
 }
