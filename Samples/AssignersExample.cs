@@ -36,22 +36,14 @@ namespace SoftBoiledGames.Inspector.Samples
         [EnumFlags]
         private ExampleEnum _enumFlags;
 
-        [AutoSet(true)]
-        private Collider2D _autoSetField;
+        [Separator]
+        [SerializeField]
+        [Scene]
+        private string _demoScene;
 
         public enum ExampleEnum
         {
             EnumValue1, EnumValue2, EnumValue3
-        }
-
-        private void Start()
-        {
-            print("Auto set field: " + _autoSetField);
-        }
-
-        private void DummyMethod()
-        {
-            
         }
     }
 }

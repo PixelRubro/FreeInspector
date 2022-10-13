@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 
 namespace SoftBoiledGames.Inspector.CustomStructures
@@ -32,3 +33,4 @@ namespace SoftBoiledGames.Inspector.CustomStructures
 		}
 	}
 }
+#endif

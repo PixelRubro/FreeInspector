@@ -3,8 +3,8 @@ using UnityEditor;
 using System;
 using System.Collections;
 using System.Reflection;
-using SoftBoiledGames.Inspector.Extensions;
 using System.Collections.Generic;
+using SoftBoiledGames.Inspector.Extensions;
 
 namespace SoftBoiledGames.Inspector
 {

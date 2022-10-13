@@ -3,7 +3,6 @@ using UnityEditor;
 
 namespace SoftBoiledGames.Inspector
 {
-
     public abstract class BaseDecoratorDrawer : DecoratorDrawer 
     {
         protected MessageType ConvertMessageType(EMessageType eMessageType)

@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using System;
 using System.Linq;
@@ -5,8 +6,6 @@ using System.Reflection;
 using SoftBoiledGames.Inspector.Utilities;
 using SoftBoiledGames.Inspector.CustomStructures;
 using UnityEngine;
-
-#if UNITY_EDITOR
 
 namespace SoftBoiledGames.Inspector.Extensions
 {
