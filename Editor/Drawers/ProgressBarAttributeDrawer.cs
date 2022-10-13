@@ -27,7 +27,9 @@ namespace SoftBoiledGames.Inspector
             var barText = dynamicLabel == null ? property.name : dynamicLabel.stringValue;
             barText = ObjectNames.NicifyVariableName(barText);
             var progressValue = property.floatValue;
-            EditorGUI.ProgressBar(position, progressValue, barText);
+            EditorGUI.ProgressBar(position, progressValue, string.Empty);
+            var shadowRect = new Rect(position.x, position.y - 2, position.width, position.height);
+            EditorGUI.DropShadowLabel(shadowRect, barText);
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
