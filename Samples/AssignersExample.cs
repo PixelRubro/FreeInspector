@@ -26,24 +26,28 @@ namespace SoftBoiledGames.Inspector.Samples
         [Separator]
 
         [SerializeField]
-        [Dropdown(nameof(_dropdownValues))]
-        private string _dropdown;
+        [Dropdown(nameof(_damageTypes))]
+        private string _damageType;
 
-        private string[] _dropdownValues = new string[3]{"Value1", "Value2", "Value3"};
+        private string[] _damageTypes = new string[2]{"Physical", "Magical"};
 
         [Separator]
         [SerializeField]
         [EnumFlags]
-        private ExampleEnum _enumFlags;
+        private Direction _enumFlags;
 
         [Separator]
         [SerializeField]
         [Scene]
         private string _demoScene;
 
-        public enum ExampleEnum
+        public enum Direction
         {
-            EnumValue1, EnumValue2, EnumValue3
+            None = 0,
+            Up = 1 << 0,
+            Right = 1 << 1,
+            Left = 1 << 2,
+            Down = 1 << 3
         }
     }
 }
