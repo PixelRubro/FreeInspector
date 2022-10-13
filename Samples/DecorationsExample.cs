@@ -112,11 +112,6 @@ namespace SoftBoiledGames.Inspector.Samples
             {
                 _password = "";
             }
-
-            if (_password == "")
-            {
-                _password = "";
-            }
         }
     }
 }
