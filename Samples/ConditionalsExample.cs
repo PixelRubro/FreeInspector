@@ -133,10 +133,6 @@ namespace SoftBoiledGames.Inspector.Samples
         
         [Separator]
 
-        [SerializeField]
-        [PlayModeOnly]
-        private float _playModeOnly;
-
         [ShowProperty]
         public float PropertyExample => 15f;
 

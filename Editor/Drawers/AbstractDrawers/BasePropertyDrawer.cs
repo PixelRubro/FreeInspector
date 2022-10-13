@@ -233,11 +233,6 @@ namespace SoftBoiledGames.Inspector
             if ((disablePlayModeAttribute != null) && (Application.isPlaying))
                 return true;
                 
-            var playmodeOnlyAttribute = property.GetAttribute<PlayModeOnlyAttribute>();
-
-            if ((playmodeOnlyAttribute != null) && (!Application.isPlaying))
-                return true;
-                
             return false;
         }
 
