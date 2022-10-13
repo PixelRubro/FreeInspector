@@ -550,15 +550,13 @@ namespace SoftBoiledGames.Inspector
             CollectNonSerializedFieldInfo();
             CollectMethodsInfo();
             CollectGroupInfo();
-            CollectReorderableListInfo();
         }
 
         private void CollectUngroupedSerializedFieldsInfo()
         {
             _ungroupedFields = _serializedProperties
                 .Where(p => p.GetAttribute<GroupAttribute>() == null)
-                .Where(p => p.GetAttribute<FoldoutAttribute>() == null)
-                .Where(p => p.GetAttribute<ReorderableListAttribute>() == null);
+                .Where(p => p.GetAttribute<FoldoutAttribute>() == null);
         }
 
         private void CollectNonSerializedFieldInfo()
@@ -593,23 +591,23 @@ namespace SoftBoiledGames.Inspector
             _foldoutGroupedFields = _foldoutGroupFields.GroupBy(f => f.GetAttribute<FoldoutAttribute>().Name);
         }
 
-        private void CollectReorderableListInfo()
-        {
-            _reorderableListProperties = _serializedProperties
-                .Where(p => p.GetAttribute<ReorderableListAttribute>() != null)
-                .ToList();
+        // private void CollectReorderableListInfo()
+        // {
+        //     _reorderableListProperties = _serializedProperties
+        //         .Where(p => p.GetAttribute<ReorderableListAttribute>() != null)
+        //         .ToList();
 
-            foreach (var list in _reorderableListProperties)
-            {
-                var reorderableList = new ReorderableList(serializedObject, list, true, true, true, true)
-                    {
-                        drawHeaderCallback = DrawListHeader,
-                        drawElementCallback = DrawListElement
-                    };
+        //     foreach (var list in _reorderableListProperties)
+        //     {
+        //         var reorderableList = new ReorderableList(serializedObject, list, true, true, true, true)
+        //             {
+        //                 drawHeaderCallback = DrawListHeader,
+        //                 drawElementCallback = DrawListElement
+        //             };
 
-                _reorderableLists.Add(reorderableList);
-            }
-        }
+        //         _reorderableLists.Add(reorderableList);
+        //     }
+        // }
 
         #endregion
 
