@@ -15,7 +15,7 @@ Custom attributes to customize classes fields in the Unity's Inspector.
 
 Add the following line to your `manifest.json` found in the "Packages" folder
 
-`    "com.softboiledgames.unityxtension": "git@github.com:SoftBoiledGames/UnityXtensions.git"`
+`    "com.softboiledgames.unityxtension": "git@github.com:SoftBoiledGames/FreeInspector.git"`
 
 ## Known problems
 
