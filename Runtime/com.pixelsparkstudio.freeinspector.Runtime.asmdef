@@ -1,3 +1,15 @@
-﻿{
-	"name": "com.pixelsparkstudio.freeinspector.Runtime"
+{
+    "name": "com.pixelsparkstudio.freeinspector.Runtime",
+    "references": [
+        "GUID:b38e131e6efa2294596c90b6dfd3bcde"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
