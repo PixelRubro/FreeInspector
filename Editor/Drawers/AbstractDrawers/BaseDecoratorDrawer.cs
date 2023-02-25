@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     public abstract class BaseDecoratorDrawer : DecoratorDrawer 
     {

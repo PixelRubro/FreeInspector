@@ -1,6 +1,6 @@
 using System;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     /// <summary>
     /// Show the field only if it is in Play Mode.

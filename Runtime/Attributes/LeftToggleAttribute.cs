@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     /// <summary>
     /// Set the boolean checkbox at the left of the field's label.

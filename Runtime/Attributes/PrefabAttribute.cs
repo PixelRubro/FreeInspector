@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     /// <summary>
     /// Make the field prefab only.

@@ -1,6 +1,6 @@
 using System;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     /// <summary>
     /// Base class for comparison attributes.

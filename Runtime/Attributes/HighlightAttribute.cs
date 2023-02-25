@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using SoftBoiledGames.Inspector.Utilities;
+using PixelSparkStudio.Inspector.Utilities;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     [AttributeUsage(AttributeTargets.Field, Inherited = true, AllowMultiple = true)]
     public sealed class HighlightAttribute : BaseAttribute

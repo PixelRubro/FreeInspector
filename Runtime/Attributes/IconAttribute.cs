@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     [AttributeUsage(AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
     public class IconAttribute : BaseAttribute

@@ -1,6 +1,6 @@
 using System;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     [AttributeUsage(AttributeTargets.All, Inherited = true, AllowMultiple = true)]
     /// <summary>

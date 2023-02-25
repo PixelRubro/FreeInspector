@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using SoftBoiledGames.Inspector.Utilities;
+using PixelSparkStudio.Inspector.Utilities;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     public enum EButtonMode
     {

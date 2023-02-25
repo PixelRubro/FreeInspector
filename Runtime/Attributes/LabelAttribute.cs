@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     /// <summary>
     /// Change the field name showed on the inspector.

@@ -1,8 +1,8 @@
 using UnityEngine;
 using System;
-using SoftBoiledGames.Inspector.Utilities;
+using PixelSparkStudio.Inspector.Utilities;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
     public sealed class SeparatorAttribute : BaseAttribute

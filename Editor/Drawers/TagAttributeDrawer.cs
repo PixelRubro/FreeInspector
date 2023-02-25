@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     [CustomPropertyDrawer(typeof(TagAttribute))]
     public class TagAttributeDrawer : BasePropertyDrawer

@@ -1,7 +1,7 @@
 using UnityEngine;
-using SoftBoiledGames.Inspector;
+using PixelSparkStudio.Inspector;
 
-namespace SoftBoiledGames.Inspector.Samples
+namespace PixelSparkStudio.Inspector.Samples
 {
     public class DecorationsExample : MonoBehaviour
     {

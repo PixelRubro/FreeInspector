@@ -4,9 +4,9 @@ using System;
 using System.Collections;
 using System.Reflection;
 using System.Collections.Generic;
-using SoftBoiledGames.Inspector.Extensions;
+using PixelSparkStudio.Inspector.Extensions;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     [CustomPropertyDrawer(typeof(DropdownAttribute))]
     public class DropdownAttributeDrawer : BasePropertyDrawer

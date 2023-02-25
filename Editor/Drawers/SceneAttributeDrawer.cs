@@ -5,7 +5,7 @@ using UnityEditor;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     [CustomPropertyDrawer(typeof(SceneAttribute))]
     public class SceneAttributeDrawer : BasePropertyDrawer

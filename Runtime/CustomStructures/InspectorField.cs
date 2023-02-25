@@ -4,7 +4,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace SoftBoiledGames.Inspector.CustomStructures
+namespace PixelSparkStudio.Inspector.CustomStructures
 {
     public enum EGroupingType
     {

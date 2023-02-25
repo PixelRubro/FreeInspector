@@ -1,4 +1,4 @@
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     /// <summary>
     /// Hides help box if provided condition is met.

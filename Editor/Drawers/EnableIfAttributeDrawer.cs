@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     [CustomPropertyDrawer(typeof(EnableIfAttribute))]
     public class EnableIfAttributeDrawer : ConditionalAttributeDrawer

@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace SoftBoiledGames.Inspector.Utilities
+namespace PixelSparkStudio.Inspector.Utilities
 {
     public class HelperMethods 
     {

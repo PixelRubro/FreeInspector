@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     /// <summary>
     /// Show non-serialized fields on inspector.

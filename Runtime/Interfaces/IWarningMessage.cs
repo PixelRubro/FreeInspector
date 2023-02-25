@@ -1,4 +1,4 @@
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     public interface IWarningMessage 
     {

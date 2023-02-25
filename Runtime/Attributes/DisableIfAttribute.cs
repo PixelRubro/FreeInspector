@@ -1,4 +1,4 @@
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     /// <summary>
     /// Disables property if provided condition is met.

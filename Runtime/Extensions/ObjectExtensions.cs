@@ -1,4 +1,4 @@
-namespace SoftBoiledGames.Inspector.Extensions
+namespace PixelSparkStudio.Inspector.Extensions
 {
     public static class ObjectExtensions 
     {

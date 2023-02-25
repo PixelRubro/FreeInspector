@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     [CustomPropertyDrawer(typeof(EnumFlagsAttribute))]
     public class EnumFlagsAttributeDrawer : BasePropertyDrawer

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     [CustomPropertyDrawer(typeof(InputAttribute))]
     public class InputAttributeDrawer : BasePropertyDrawer 

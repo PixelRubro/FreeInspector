@@ -5,9 +5,9 @@ using System.IO;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using SoftBoiledGames.Inspector.Extensions;
+using PixelSparkStudio.Inspector.Extensions;
 
-namespace SoftBoiledGames.Inspector.Utilities
+namespace PixelSparkStudio.Inspector.Utilities
 {
     public static class EditorUtil
     {

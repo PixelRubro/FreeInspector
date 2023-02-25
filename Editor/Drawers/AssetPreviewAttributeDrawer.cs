@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEditor;
-using SoftBoiledGames.Inspector.Utilities;
+using PixelSparkStudio.Inspector.Utilities;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     [CustomPropertyDrawer(typeof(AssetPreviewAttribute))]
     public class AssetPreviewAttributeDrawer : BasePropertyDrawer

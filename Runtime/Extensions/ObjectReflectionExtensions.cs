@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-namespace SoftBoiledGames.Inspector.Extensions
+namespace PixelSparkStudio.Inspector.Extensions
 {
     public static class ObjectReflectionExtensions 
     {

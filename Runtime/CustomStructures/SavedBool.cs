@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
 using UnityEditor;
 
-namespace SoftBoiledGames.Inspector.CustomStructures
+namespace PixelSparkStudio.Inspector.CustomStructures
 {
 	public class SavedBool
 	{

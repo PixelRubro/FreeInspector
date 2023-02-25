@@ -1,10 +1,10 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using SoftBoiledGames.Inspector.Extensions;
+using PixelSparkStudio.Inspector.Extensions;
 using System.Linq;
 using System.Reflection;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     [CustomPropertyDrawer(typeof(HighlightAttribute))]
     public class HighlightAttributeDrawer : BasePropertyDrawer

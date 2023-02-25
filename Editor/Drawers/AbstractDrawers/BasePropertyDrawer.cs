@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System;
-using SoftBoiledGames.Inspector.Extensions;
-using SoftBoiledGames.Inspector.Utilities;
+using PixelSparkStudio.Inspector.Extensions;
+using PixelSparkStudio.Inspector.Utilities;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     public abstract class BasePropertyDrawer: PropertyDrawer 
     {

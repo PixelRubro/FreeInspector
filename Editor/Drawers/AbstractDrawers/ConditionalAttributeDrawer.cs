@@ -1,9 +1,9 @@
 using UnityEditor;
 using UnityEngine;
 using System.Reflection;
-using SoftBoiledGames.Inspector.Extensions;
+using PixelSparkStudio.Inspector.Extensions;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     public abstract class ConditionalAttributeDrawer : BasePropertyDrawer
     {

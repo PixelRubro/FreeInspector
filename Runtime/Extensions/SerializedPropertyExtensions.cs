@@ -3,11 +3,11 @@ using UnityEditor;
 using System;
 using System.Linq;
 using System.Reflection;
-using SoftBoiledGames.Inspector.Utilities;
-using SoftBoiledGames.Inspector.CustomStructures;
+using PixelSparkStudio.Inspector.Utilities;
+using PixelSparkStudio.Inspector.CustomStructures;
 using UnityEngine;
 
-namespace SoftBoiledGames.Inspector.Extensions
+namespace PixelSparkStudio.Inspector.Extensions
 {
     public static class SerializedPropertyExtensions
     {

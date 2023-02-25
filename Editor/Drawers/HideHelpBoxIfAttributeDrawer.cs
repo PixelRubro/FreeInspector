@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     [CustomPropertyDrawer(typeof(HideHelpBoxIfAttribute))]
     public class HideHelpBoxIfAttributeDrawer : ConditionalHelpAttributeDrawer

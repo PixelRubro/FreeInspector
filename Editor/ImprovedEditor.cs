@@ -7,11 +7,11 @@ using System.IO;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
-using SoftBoiledGames.Inspector.Extensions;
-using SoftBoiledGames.Inspector.Utilities;
-using SoftBoiledGames.Inspector.CustomStructures;
+using PixelSparkStudio.Inspector.Extensions;
+using PixelSparkStudio.Inspector.Utilities;
+using PixelSparkStudio.Inspector.CustomStructures;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(UnityEngine.Object), true)]

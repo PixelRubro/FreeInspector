@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     /// <summary>
     /// Display an warning in the inspector if the field's value is null.

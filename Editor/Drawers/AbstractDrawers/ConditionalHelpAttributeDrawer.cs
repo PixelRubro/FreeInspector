@@ -1,11 +1,11 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using System.Reflection;
-using SoftBoiledGames.Inspector.Extensions;
+using PixelSparkStudio.Inspector.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     public abstract class ConditionalHelpAttributeDrawer : BasePropertyDrawer
     {

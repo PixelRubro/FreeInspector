@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SoftBoiledGames.Inspector
+namespace PixelSparkStudio.Inspector
 {
     public abstract class ValidationAttribute : BaseAttribute
     {
