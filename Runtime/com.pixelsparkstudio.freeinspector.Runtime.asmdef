@@ -1,8 +1,6 @@
 {
     "name": "com.pixelsparkstudio.freeinspector.Runtime",
-    "references": [
-        "GUID:b38e131e6efa2294596c90b6dfd3bcde"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
