@@ -4,7 +4,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace PixelSparkStudio.Inspector.CustomStructures
+namespace VermillionVanguard.Inspector.CustomStructures
 {
     public enum EGroupingType
     {

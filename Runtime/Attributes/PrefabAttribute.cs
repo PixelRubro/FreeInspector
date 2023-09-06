@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     /// <summary>
     /// Make the field prefab only.

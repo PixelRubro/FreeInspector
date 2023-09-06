@@ -1,4 +1,4 @@
-namespace PixelSparkStudio.Inspector.Extensions
+namespace VermillionVanguard.Inspector.Extensions
 {
     public static class ObjectExtensions 
     {

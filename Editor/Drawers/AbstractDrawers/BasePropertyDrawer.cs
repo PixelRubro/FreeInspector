@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System;
-using PixelSparkStudio.Inspector.Extensions;
-using PixelSparkStudio.Inspector.Utilities;
+using VermillionVanguard.Inspector.Extensions;
+using VermillionVanguard.Inspector.Utilities;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     public abstract class BasePropertyDrawer: PropertyDrawer 
     {

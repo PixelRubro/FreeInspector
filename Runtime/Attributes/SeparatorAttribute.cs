@@ -1,8 +1,8 @@
 using UnityEngine;
 using System;
-using PixelSparkStudio.Inspector.Utilities;
+using VermillionVanguard.Inspector.Utilities;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
     public sealed class SeparatorAttribute : BaseAttribute

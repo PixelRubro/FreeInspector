@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     [CustomPropertyDrawer(typeof(DisableInPlayModeAttribute))]
     public class DisableInPlayModeAttributeDrawer : ConditionalAttributeDrawer

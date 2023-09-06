@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     public enum EColor
     {

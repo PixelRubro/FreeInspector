@@ -1,4 +1,4 @@
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     /// <summary>
     /// Hides property if provided condition is met.

@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using PixelSparkStudio.Inspector.Utilities;
+using VermillionVanguard.Inspector.Utilities;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     public enum EButtonMode
     {

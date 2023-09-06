@@ -1,4 +1,4 @@
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     /// <summary>
     /// Enables property if provided condition is met.

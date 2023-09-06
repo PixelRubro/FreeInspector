@@ -1,6 +1,6 @@
 using System;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     /// <summary>
     /// Show the field only if it is in Play Mode.

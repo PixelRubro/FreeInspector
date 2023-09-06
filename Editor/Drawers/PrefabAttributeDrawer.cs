@@ -3,7 +3,7 @@ using UnityEditor;
 using System.IO;
 using System.Linq;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     [CustomPropertyDrawer(typeof(PrefabAttribute))]
     public class PrefabAttributeDrawer : BasePropertyDrawer 

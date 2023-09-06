@@ -3,11 +3,11 @@ using UnityEditor;
 using System;
 using System.Linq;
 using System.Reflection;
-using PixelSparkStudio.Inspector.Utilities;
-using PixelSparkStudio.Inspector.CustomStructures;
+using VermillionVanguard.Inspector.Utilities;
+using VermillionVanguard.Inspector.CustomStructures;
 using UnityEngine;
 
-namespace PixelSparkStudio.Inspector.Extensions
+namespace VermillionVanguard.Inspector.Extensions
 {
     public static class SerializedPropertyExtensions
     {

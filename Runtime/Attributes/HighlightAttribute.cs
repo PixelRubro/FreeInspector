@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using PixelSparkStudio.Inspector.Utilities;
+using VermillionVanguard.Inspector.Utilities;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     [AttributeUsage(AttributeTargets.Field, Inherited = true, AllowMultiple = true)]
     public sealed class HighlightAttribute : BaseAttribute

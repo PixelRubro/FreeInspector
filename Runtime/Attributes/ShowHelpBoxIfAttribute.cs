@@ -1,4 +1,4 @@
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     /// <summary>
     /// Shows a help box if condition is met.

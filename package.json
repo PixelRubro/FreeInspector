@@ -1,11 +1,11 @@
 {
-  "name": "com.pixelsparkstudio.freeinspector",
+  "name": "com.vermillionvanguard.freeinspector",
   "displayName": "Free Inspector",
   "description": "Custom attributes to customize classes fields in the Unity's Inspector.",
   "version": "0.0.1",
   "unity": "2019.4",
   "license": "MIT",
   "author": {
-    "name": "Pixel Spark Studio"
+    "name": "Vermillion Vanguard Studio"
   }
 }

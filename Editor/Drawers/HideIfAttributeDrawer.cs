@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     [CustomPropertyDrawer(typeof(HideIfAttribute))]
     public class HideIfAttributeDrawer : ConditionalAttributeDrawer

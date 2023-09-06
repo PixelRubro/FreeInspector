@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     /// <summary>
     /// Change the field name showed on the inspector.

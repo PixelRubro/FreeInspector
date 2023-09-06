@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     [CustomPropertyDrawer(typeof(HideLabelAttribute))]
     public class HideLabelAttributeDrawer : BasePropertyDrawer

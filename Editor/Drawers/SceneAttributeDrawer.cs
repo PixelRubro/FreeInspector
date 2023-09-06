@@ -5,7 +5,7 @@ using UnityEditor;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     [CustomPropertyDrawer(typeof(SceneAttribute))]
     public class SceneAttributeDrawer : BasePropertyDrawer

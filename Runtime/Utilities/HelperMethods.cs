@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace PixelSparkStudio.Inspector.Utilities
+namespace VermillionVanguard.Inspector.Utilities
 {
     public class HelperMethods 
     {

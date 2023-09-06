@@ -1,6 +1,6 @@
 using System;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     [AttributeUsage(AttributeTargets.All, Inherited = true, AllowMultiple = true)]
     /// <summary>

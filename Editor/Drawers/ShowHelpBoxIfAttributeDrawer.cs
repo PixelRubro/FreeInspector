@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     [CustomPropertyDrawer(typeof(ShowHelpBoxIfAttribute))]
     public class ShowHelpBoxIfAttributeDrawer : ConditionalHelpAttributeDrawer

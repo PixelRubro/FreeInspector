@@ -1,11 +1,9 @@
 {
-    "name": "com.pixelsparkstudio.freeinspector.Editor",
+    "name": "com.vermillionvanguard.freeinspector.Samples",
     "references": [
         "GUID:871177ecb840eaf4d9aa37674ee43e39"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

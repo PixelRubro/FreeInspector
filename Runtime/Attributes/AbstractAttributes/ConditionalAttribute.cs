@@ -1,6 +1,6 @@
 using System;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     /// <summary>
     /// Base class for comparison attributes.

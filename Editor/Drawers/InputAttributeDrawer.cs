@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     [CustomPropertyDrawer(typeof(InputAttribute))]
     public class InputAttributeDrawer : BasePropertyDrawer 

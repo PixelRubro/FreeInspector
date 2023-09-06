@@ -1,11 +1,11 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using System.Reflection;
-using PixelSparkStudio.Inspector.Extensions;
+using VermillionVanguard.Inspector.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace PixelSparkStudio.Inspector
+namespace VermillionVanguard.Inspector
 {
     public abstract class ConditionalHelpAttributeDrawer : BasePropertyDrawer
     {
