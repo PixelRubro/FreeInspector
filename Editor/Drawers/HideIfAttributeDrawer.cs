@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     [CustomPropertyDrawer(typeof(HideIfAttribute))]
     public class HideIfAttributeDrawer : ConditionalAttributeDrawer

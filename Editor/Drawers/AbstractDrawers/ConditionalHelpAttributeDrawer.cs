@@ -1,11 +1,11 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using System.Reflection;
-using VermillionVanguard.Inspector.Extensions;
+using PixelRouge.Inspector.Extensions;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     public abstract class ConditionalHelpAttributeDrawer : BasePropertyDrawer
     {

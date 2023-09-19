@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     [CustomPropertyDrawer(typeof(TagAttribute))]
     public class TagAttributeDrawer : BasePropertyDrawer

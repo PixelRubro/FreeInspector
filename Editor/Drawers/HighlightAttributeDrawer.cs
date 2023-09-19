@@ -1,10 +1,10 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using VermillionVanguard.Inspector.Extensions;
+using PixelRouge.Inspector.Extensions;
 using System.Linq;
 using System.Reflection;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     [CustomPropertyDrawer(typeof(HighlightAttribute))]
     public class HighlightAttributeDrawer : BasePropertyDrawer

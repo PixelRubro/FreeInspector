@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     [CustomPropertyDrawer(typeof(SeparatorAttribute))]
     public class SeparatorAttributeDrawer : BaseDecoratorDrawer 

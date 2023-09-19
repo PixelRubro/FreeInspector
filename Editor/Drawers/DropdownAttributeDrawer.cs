@@ -4,9 +4,9 @@ using System;
 using System.Collections;
 using System.Reflection;
 using System.Collections.Generic;
-using VermillionVanguard.Inspector.Extensions;
+using PixelRouge.Inspector.Extensions;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     [CustomPropertyDrawer(typeof(DropdownAttribute))]
     public class DropdownAttributeDrawer : BasePropertyDrawer

@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     [CustomPropertyDrawer(typeof(HideHelpBoxIfAttribute))]
     public class HideHelpBoxIfAttributeDrawer : ConditionalHelpAttributeDrawer

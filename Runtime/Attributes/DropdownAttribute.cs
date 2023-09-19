@@ -3,7 +3,7 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     [AttributeUsage(AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
     public sealed class DropdownAttribute : BaseAttribute

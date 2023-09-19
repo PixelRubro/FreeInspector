@@ -1,11 +1,9 @@
 {
-    "name": "com.vermillionvanguard.freeinspector.Editor",
+    "name": "com.pixelrouge.freeinspector.Samples",
     "references": [
         "GUID:871177ecb840eaf4d9aa37674ee43e39"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

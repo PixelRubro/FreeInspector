@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     /// <summary>
     /// Set the boolean checkbox at the left of the field's label.

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-namespace VermillionVanguard.Inspector.Extensions
+namespace PixelRouge.Inspector.Extensions
 {
     public static class ObjectReflectionExtensions 
     {

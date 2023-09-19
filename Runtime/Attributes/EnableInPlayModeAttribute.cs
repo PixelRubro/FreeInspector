@@ -1,6 +1,6 @@
 using System;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     /// <summary>
     /// Make the field read-only when the editor is in play mode.

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     public abstract class ValidationAttribute : BaseAttribute
     {

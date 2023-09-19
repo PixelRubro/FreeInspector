@@ -7,11 +7,11 @@ using System.IO;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
-using VermillionVanguard.Inspector.Extensions;
-using VermillionVanguard.Inspector.Utilities;
-using VermillionVanguard.Inspector.CustomStructures;
+using PixelRouge.Inspector.Extensions;
+using PixelRouge.Inspector.Utilities;
+using PixelRouge.Inspector.CustomStructures;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(UnityEngine.Object), true)]

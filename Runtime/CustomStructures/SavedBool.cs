@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
 using UnityEditor;
 
-namespace VermillionVanguard.Inspector.CustomStructures
+namespace PixelRouge.Inspector.CustomStructures
 {
 	public class SavedBool
 	{

@@ -1,6 +1,6 @@
 using System;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = true)]
     /// <summary>

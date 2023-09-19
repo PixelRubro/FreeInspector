@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using VermillionVanguard.Inspector.Utilities;
+using PixelRouge.Inspector.Utilities;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     [AttributeUsage(AttributeTargets.Field, Inherited = true, AllowMultiple = true)]
     public sealed class HighlightAttribute : BaseAttribute

@@ -1,4 +1,4 @@
-namespace VermillionVanguard.Inspector.Extensions
+namespace PixelRouge.Inspector.Extensions
 {
     public static class ObjectExtensions 
     {

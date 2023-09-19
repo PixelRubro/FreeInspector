@@ -1,8 +1,8 @@
 using UnityEngine;
 using System;
-using VermillionVanguard.Inspector.Utilities;
+using PixelRouge.Inspector.Utilities;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
     public sealed class SeparatorAttribute : BaseAttribute

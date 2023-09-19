@@ -1,6 +1,6 @@
 using System;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     /// <summary>
     /// Base class for comparison attributes.

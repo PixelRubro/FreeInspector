@@ -1,11 +1,11 @@
 {
-  "name": "com.vermillionvanguard.freeinspector",
+  "name": "com.pixelrouge.freeinspector",
   "displayName": "Free Inspector",
   "description": "Custom attributes to customize classes fields in the Unity's Inspector.",
   "version": "0.0.1",
   "unity": "2019.4",
   "license": "MIT",
   "author": {
-    "name": "Vermillion Vanguard Studio"
+    "name": "Pixel Rouge Studio"
   }
 }

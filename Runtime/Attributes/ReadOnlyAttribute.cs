@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     /// <summary>
     /// Prevent a serialized field from being edited in inspector.

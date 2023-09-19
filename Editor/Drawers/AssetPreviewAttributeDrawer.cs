@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEditor;
-using VermillionVanguard.Inspector.Utilities;
+using PixelRouge.Inspector.Utilities;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     [CustomPropertyDrawer(typeof(AssetPreviewAttribute))]
     public class AssetPreviewAttributeDrawer : BasePropertyDrawer

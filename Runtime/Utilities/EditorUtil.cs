@@ -5,9 +5,9 @@ using System.IO;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using VermillionVanguard.Inspector.Extensions;
+using PixelRouge.Inspector.Extensions;
 
-namespace VermillionVanguard.Inspector.Utilities
+namespace PixelRouge.Inspector.Utilities
 {
     public static class EditorUtil
     {

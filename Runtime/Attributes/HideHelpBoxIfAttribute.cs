@@ -1,4 +1,4 @@
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     /// <summary>
     /// Hides help box if provided condition is met.

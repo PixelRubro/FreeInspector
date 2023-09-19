@@ -1,4 +1,4 @@
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     public interface IWarningMessage 
     {

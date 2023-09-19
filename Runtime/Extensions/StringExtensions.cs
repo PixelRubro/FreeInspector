@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using System;
 
-namespace VermillionVanguard.Inspector.Extensions
+namespace PixelRouge.Inspector.Extensions
 {
     public static class StringExtensions 
     {

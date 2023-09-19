@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     public abstract class BaseDecoratorDrawer : DecoratorDrawer 
     {

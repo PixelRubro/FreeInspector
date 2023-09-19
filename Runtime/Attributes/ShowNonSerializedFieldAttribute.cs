@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     /// <summary>
     /// Show non-serialized fields on inspector.

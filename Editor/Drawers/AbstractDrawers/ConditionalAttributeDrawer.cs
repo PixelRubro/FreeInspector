@@ -1,9 +1,9 @@
 using UnityEditor;
 using UnityEngine;
 using System.Reflection;
-using VermillionVanguard.Inspector.Extensions;
+using PixelRouge.Inspector.Extensions;
 
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     public abstract class ConditionalAttributeDrawer : BasePropertyDrawer
     {

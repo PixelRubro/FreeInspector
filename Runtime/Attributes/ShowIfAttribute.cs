@@ -1,4 +1,4 @@
-namespace VermillionVanguard.Inspector
+namespace PixelRouge.Inspector
 {
     /// <summary>
     /// Shows property if provided condition is met.

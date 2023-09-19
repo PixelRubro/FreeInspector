@@ -1,7 +1,7 @@
 using UnityEngine;
-using VermillionVanguard.Inspector;
+using PixelRouge.Inspector;
 
-namespace VermillionVanguard.Inspector.Samples
+namespace PixelRouge.Inspector.Samples
 {
     public class DecorationsExample : MonoBehaviour
     {
